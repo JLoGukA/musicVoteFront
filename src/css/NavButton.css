@@ -1,0 +1,55 @@
+
+.btnImgStyle{
+    width:40px;
+}
+
+.ibmstu, .ischedule, .inote{
+    text-align: center;
+    display: flex;
+    flex-direction:column;
+    color:white;
+    align-items:center;
+    
+    width:80px;
+    margin:0px 20px;
+}
+
+.ibmstu:hover{
+    filter: invert(61%) sepia(16%) saturate(6986%) hue-rotate(93deg) brightness(150%) contrast(89%);
+}
+
+.ibmstu:hover {
+    transition: all 0.4s ease-out;
+}
+
+.itextbtn{
+    text-align: center;
+    display: flex;
+    font-size:100%;
+    margin:0px 20px;
+    color:white;
+}
+
+.igear{
+    text-align: center;
+    display: flex;
+    margin:0px 20px;
+    animation: App-logo-spin-rev infinite 10s linear;
+}
+
+@keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
+@keyframes App-logo-spin-rev {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+}

@@ -1,0 +1,49 @@
+
+body {
+  //background:linear-gradient(90deg, #225e85 0 30%, #149172);
+  background-attachment: fixed;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.App {
+  text-align: center;
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.TextShadow {
+    text-shadow: 2px 2px 2px #8c1b21, 0 2px 2px #8c1b21, -2px 0 2px #8c1b21, 0 -2px 2px #8c1b21;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.mainLevel{
+  display:flex;
+  flex-direction:column;
+}
+
+.spaceElement{
+  height:2em;
+}
