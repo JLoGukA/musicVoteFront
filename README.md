@@ -1,1 +1,1 @@
-Front pang for musicVote project
+Front page for musicVote project
