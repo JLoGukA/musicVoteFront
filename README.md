@@ -1,1 +1,1 @@
-Front pang for #musicVoteApi
+Front pang for musicVote project
