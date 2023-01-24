@@ -5,34 +5,45 @@ import axios from 'axios';
 import './css/NavBar.css'
 import './css/NavButton.css'
 
+import ispace from './asset/space.png'
 import inote from './asset/note.svg'
 import ibmstu from './asset/logo-bmstu.svg'
 import ischedule from './asset/schedule.svg'
 import igear from './asset/gear.png'
 import error from './audio/error.mp3'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const dict={
-    "inote":{image:inote},
-    "ibmstu":{image:ibmstu},
-    "ischedule":{image:ischedule},
-    "igear":{image:igear},
-    "ispace":{image:null}
+    inote:{image:inote},
+    ibmstu:{image:ibmstu},
+    ischedule:{image:ischedule},
+    igear:{image:igear},
+    ispace:{image:ispace},
+    itext:{image:""}
 }
+
 
 function Button(props){
 
     const onclick = async () =>{
-        if(props.style==="igear"||props.style==="ispace"){
+        if(props.style==="igear"){
             let aud = new Audio(error)
             aud.play()
-            await axios.get("http://localhost:3005/get/winner")
+
+            cookies.remove("VoteAccepted")
+            //await axios.get("http://localhost:3005/get/winner")
+        }
+        else if(props.text==="Да"){
+            props.allowCookies(1)
         }
         if(props.link!==null){document.location.href=props.link;}
     }
  
     return(
         <div class={props.style} onClick={()=>{onclick()}}>
-            <img class="btnImgStyle" src={dict[props.style].image}></img>
+            <img class="btnImgStyle" src={dict[props.style].image} alt={""}></img>
             <text>{props.text}</text>
         </div>
     );
@@ -42,16 +53,15 @@ function NavBar(props){
     if(props.mobile===true){
         return(
         <div>
-            <ul className="navbar_mobile">
-                <div class="navbarchild">
-                    {<Button link="https://mf.bmstu.ru/" style="ibmstu"/>}
-                    {<Button link="http://rasp.msfu.ru/" style="ischedule"/>}
-                </div>
-                <div class="navbarchild">
-                    {<Button style="igear"/>}
-                   {<Button link="http://rasp.msfu.ru/" style="inote"/>}
-               </div>
-            </ul>  
+            <div className="navbar_mobile">
+                
+                {<Button link="https://mf.bmstu.ru/" style={String("ibmstu")}/>}
+                {<Button link="http://rasp.msfu.ru/" style={String("ischedule")}/>}
+                
+                {<Button style={String("igear")}/>}
+                {<Button link="http://rasp.msfu.ru/" style={String("inote")}/>}
+                
+            </div>  
         </div> 
         )  
     } 
@@ -59,15 +69,17 @@ function NavBar(props){
         return(
                 <div className="navbar">
                     <div className="navbarchild">
-                        {<Button link="https://mf.bmstu.ru/" text="МФ МГТУ" style="ibmstu"/>}
-                        {<Button link="http://rasp.msfu.ru/" text="Расписание" style="ischedule"/>}    
+                        {<Button link="https://mf.bmstu.ru/" text="МФ МГТУ" style={String("ibmstu")}/>}
+                        {<Button link="http://rasp.msfu.ru/" text="Расписание" style={String("ischedule")}/>} 
                     </div>
-                    {<Button style="ispace"/>} 
+                    {<Button style={String("ispace")}/>} 
                     <div className="navbarchild">
-                        {<Button style="igear"/>}
-                        {<Button link="http://rasp.msfu.ru/" text="Предложить музыку" style="inote"/>}
+                        {<Button style={String("igear")}/>}
+                        {<Button link="http://rasp.msfu.ru/" text="Предложить музыку" style={String("inote")}/>}
                     </div>
-                </div>   
+                    
+                </div>  
+                 
         ) 
     }
 }
@@ -86,7 +98,10 @@ function ElemCont(props){
     }
     
     const update =async (num) =>{
-
+        if(cookies.get("VoteAccepted")){
+            alert("Вы уже проголосовали!")
+            return;
+        }
         elemVotes[num]++
         let h = elemVotes[num]
         selected[num]=true
@@ -95,9 +110,12 @@ function ElemCont(props){
         }
 
         props.updateRequest(num,h)
+        cookies.set("VoteAccepted",props.music[num])
         setActive(true)
-
+        
     }
+
+    
 
     let map = numbers.map(
         (number)=> 
@@ -107,12 +125,35 @@ function ElemCont(props){
             </div>
     )
     
-    return(
-        <div className="poll">
-            <h1 class="pollheader">What music will be playing on next break?</h1>
-            {map}
-        </div>
-    )
+    if(props.cookiesAllow===0){
+        
+        return(
+            <div className="pollCookies">
+                <h1 class="pollheader">Этот сайт использует Cookies. Разрешить их создание и хранение?</h1>
+                
+                
+                <div className="pollCookiesRow">
+                    
+                    <div>{<Button link="https://mf.bmstu.ru/" text="Нет" style={String("itext")}/>}</div>
+                    {<Button text="" style={String("ispace")}/>}
+                    <div>{<Button text="Да" style={String("itext")} allowCookies={props.allowCookies}/>}</div>
+
+                    
+                </div>
+                <div className="pollCookiesRow">
+                    
+                </div>
+            </div>
+        )
+    }
+    else{
+        return(
+            <div className="poll">
+                <h1 class="pollheader">Какая музыка будет играть на следующем перерыве?</h1>
+                {map}
+            </div>
+        )
+    }
     
 }
 

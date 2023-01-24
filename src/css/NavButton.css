@@ -37,6 +37,22 @@
     animation: App-logo-spin-rev infinite 10s linear;
 }
 
+.itext{
+  font-size:35px;
+  box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
+  border-radius: 20px;
+  padding:5px;
+  width:70px;
+  text-align: center;
+
+}
+
+.itext:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+  color:white;
+  transition: all 0.3s ease-out;
+}
+
 @keyframes App-logo-spin {
     from {
       transform: rotate(0deg);
