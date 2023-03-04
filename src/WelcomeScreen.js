@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import './css/NavBar.css'
 import './css/NavButton.css'
+import './css/Poll.css'
 
 import ispace from './asset/space.png'
 import inote from './asset/note.svg'
@@ -33,7 +34,7 @@ function Button(props){
             aud.play()
 
             cookies.remove("VoteAccepted")
-            //await axios.get("http://localhost:3005/get/winner")
+            let h = await axios.get("http://localhost:3005/get/sched")
         }
         else if(props.text==="Да"){
             props.allowCookies(1)
@@ -114,34 +115,40 @@ function ElemCont(props){
         setActive(true)
         
     }
+    var map2;
 
-    
-
-    let map = numbers.map(
+    if(!active){
+       map2 = numbers.map(
         (number)=> 
-            <div className={(selected[number]===true) ? 'elem select' : 'elem nonselect'} onClick={() => {if(active!==true)update(number)}}>
-                <span className={(active!==false&&elemVotes[number]!==0) ? 'progress-bar anim' : 'progress-bar'} style={{ 'width': ((props.votesAmount!==0) ? (elemVotes[number] / props.votesAmount * 100).toFixed(2) : '0') + "%"}} />
-                <div className="content">{(active===true) ? ((props.votesAmount!==0) ? props.music[number]+ " - " +(elemVotes[number] / props.votesAmount * 100).toFixed(2) : '0') + "%" : props.music[number]}</div>
+        <div className='pollelemcontainer'>
+            <div className='pollelem nonselect' onClick={() => {update(number)}}>
+                <h2 className="h2elem" style={{'color':'#e0d5be'}}>{props.music[number]}</h2>
             </div>
-    )
+        </div>
+        ) 
+    }
+    else{
+        map2 = numbers.map(
+            (number)=> 
+            <div className='pollelemcontainer'>
+                <h2 className="h2elem" style={{'color':'#e0d5be'}}>{props.music[number] + " - "+(elemVotes[number] / props.votesAmount * 100).toFixed(2) + "%"}</h2>
+                <div className={(selected[number]===true) ? 'pollelem select' : 'pollelem nonselect'}>
+                    <div className={(elemVotes[number]!==0) ? 'progress-bar anim':""} style={
+                        { 'width': ((elemVotes[number] / props.votesAmount * 100).toFixed(2)) + "%"}} 
+                    />
+                </div>
+            </div>
+        )
+    }
     
     if(props.cookiesAllow===0){
-        
         return(
             <div className="pollCookies">
                 <h1 class="pollheader">Этот сайт использует Cookies. Разрешить их создание и хранение?</h1>
-                
-                
                 <div className="pollCookiesRow">
-                    
                     <div>{<Button link="https://mf.bmstu.ru/" text="Нет" style={String("itext")}/>}</div>
                     {<Button text="" style={String("ispace")}/>}
                     <div>{<Button text="Да" style={String("itext")} allowCookies={props.allowCookies}/>}</div>
-
-                    
-                </div>
-                <div className="pollCookiesRow">
-                    
                 </div>
             </div>
         )
@@ -150,13 +157,12 @@ function ElemCont(props){
         return(
             <div className="poll">
                 <h1 class="pollheader">Какая музыка будет играть на следующем перерыве?</h1>
-                {map}
+                {map2}
             </div>
         )
     }
-    
 }
 
-const box={NavBar,ElemCont};
+const box={NavBar,ElemCont,Button};
 
 export default box;

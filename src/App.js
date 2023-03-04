@@ -57,6 +57,7 @@ function App(){
 
   return (
     <div className="mainLevel">
+      {<box.Button style={String("ispace")}/>} 
       {<box.NavBar mobile={m} />}
       <div className='spaceElement'></div>
       {<box.ElemCont songsAmount={musicData[2]} mobile={m} music={musicData[0]} votes={musicData[1]} votesAmount={musicData[3]} updateRequest={handleUpdateRequests} allowCookies={setCookiesAllow} cookiesAllow={cookiesAllowed} />}
