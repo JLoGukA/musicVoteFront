@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState} from 'react';
-import axios from 'axios';
 
 import './css/NavBar.css'
 import './css/NavButton.css'
@@ -11,7 +10,7 @@ import inote from './asset/note.svg'
 import ibmstu from './asset/logo-bmstu.svg'
 import ischedule from './asset/schedule.svg'
 import igear from './asset/gear.png'
-import error from './audio/error.mp3'
+//import error from './audio/error.mp3'
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -22,32 +21,41 @@ const dict={
     ischedule:{image:ischedule},
     igear:{image:igear},
     ispace:{image:ispace},
-    itext:{image:""}
-}
+    itext:{image:""},
 
+    inoteM:{image:inote},
+    ibmstuM:{image:ibmstu},
+    ischeduleM:{image:ischedule},
+    igearM:{image:igear},
+}
 
 function Button(props){
 
     const onclick = async () =>{
         if(props.style==="igear"){
-            let aud = new Audio(error)
-            aud.play()
+            //let aud = new Audio(error)
+            //aud.play()
 
             cookies.remove("VoteAccepted")
-            let h = await axios.get("http://localhost:3005/get/sched")
-        }
-        else if(props.text==="Да"){
-            props.allowCookies(1)
         }
         if(props.link!==null){document.location.href=props.link;}
     }
- 
-    return(
-        <div class={props.style} onClick={()=>{onclick()}}>
-            <img class="btnImgStyle" src={dict[props.style].image} alt={""}></img>
-            <text>{props.text}</text>
-        </div>
-    );
+    if(props.mobile){
+        return(
+            <div class={props.style} onClick={()=>{onclick()}}>
+                <img class="btnMobileImgStyle" src={dict[props.style].image} alt={""}></img>
+                <text>{props.text}</text>
+            </div>
+        )
+    }
+    else{
+        return(
+            <div class={props.style} onClick={()=>{onclick()}}>
+                <img class="btnImgStyle" src={dict[props.style].image} alt={""}></img>
+                <text>{props.text}</text>
+            </div>
+        )
+    }
 }
 
 function NavBar(props){
@@ -56,11 +64,11 @@ function NavBar(props){
         <div>
             <div className="navbar_mobile">
                 
-                {<Button link="https://mf.bmstu.ru/" style={String("ibmstu")}/>}
-                {<Button link="http://rasp.msfu.ru/" style={String("ischedule")}/>}
+                {<Button link="https://mf.bmstu.ru/" style={String("ibmstuM")} mobile={true}/>}
+                {<Button link="http://rasp.msfu.ru/" style={String("ischeduleM")} mobile={true}/>}
                 
-                {<Button style={String("igear")}/>}
-                {<Button link="http://rasp.msfu.ru/" style={String("inote")}/>}
+                {<Button style={String("igearM")} mobile={true}/>}
+                {<Button link="http://rasp.msfu.ru/" style={String("inoteM")} mobile={true}/>}
                 
             </div>  
         </div> 
@@ -85,84 +93,79 @@ function NavBar(props){
     }
 }
 
-function ElemCont(props){
+function Poll(props){
+    /* 
+    All songs names(array) = musicData[0], 
+    Votes for every song(array) = musicData[1] 
+    Amount of songs = musicData[2], 
+    Amount of all votes = musicData[3] */
 
-    const [elemVotes]=useState([])
-    const [selected, setSelected]=useState([])
     const [active, setActive]=useState(false)
-    const numbers = [];
-    
-    for(let i=0;i<props.songsAmount;i++){
-        numbers[i]=i;
-        let y = parseInt(props.votes[i],10)
-        elemVotes[i]=y;
+    const [voted, setVoted]=useState(-1)
+    const elements=[]
+
+    for(let i=0;i<props.musicData[2];i++){
+
+        let y = parseInt(props.musicData[1][i],10)
+
+        if(!active){
+            elements[i]=(<div className='pollElemContainer'>
+                            <div className='pollElem notSelected' onClick={() => {update(i,y)}}>
+                                <h2 className="pollElemHeader" style={{'color':'#e0d5be'}}>{props.musicData[0][i]}</h2>
+                            </div>
+                        </div>)
+        }
+        else{
+            elements[i]=(<div className='pollElemContainer'>
+                            <h2 className="pollElemHeader" style={{'color':'#e0d5be'}}>{props.musicData[0][i] + " - "+(y / props.musicData[3] * 100).toFixed(2) + "%"}</h2>
+                            <div className={(voted===i) ? 'pollElem selected' : 'pollElem notSelected'}>
+                                <div className={(y!==0) ? 'progress-bar anim':""} style={
+                                    { 'width': ((y / props.musicData[3] * 100).toFixed(2)) + "%"}} 
+                                />
+                            </div>
+                        </div>)
+        }
     }
-    
-    const update =async (num) =>{
+
+    const update =async (num,amount) =>{
         if(cookies.get("VoteAccepted")){
-            alert("Вы уже проголосовали!")
+            alert("Вы уже проголосовали за "+cookies.get("VoteAccepted")+"!")
             return;
         }
-        elemVotes[num]++
-        let h = elemVotes[num]
-        selected[num]=true
-        for(let i=0;i<props.songsAmount;i++){
-            if(i!==num)selected[i]=false
-        }
-
-        props.updateRequest(num,h)
-        cookies.set("VoteAccepted",props.music[num])
+        props.updateRequest(num,amount+1)
+        cookies.set("VoteAccepted",props.musicData[0][num])
+        setVoted(num)
         setActive(true)
-        
-    }
-    var map2;
-
-    if(!active){
-       map2 = numbers.map(
-        (number)=> 
-        <div className='pollelemcontainer'>
-            <div className='pollelem nonselect' onClick={() => {update(number)}}>
-                <h2 className="h2elem" style={{'color':'#e0d5be'}}>{props.music[number]}</h2>
-            </div>
-        </div>
-        ) 
-    }
-    else{
-        map2 = numbers.map(
-            (number)=> 
-            <div className='pollelemcontainer'>
-                <h2 className="h2elem" style={{'color':'#e0d5be'}}>{props.music[number] + " - "+(elemVotes[number] / props.votesAmount * 100).toFixed(2) + "%"}</h2>
-                <div className={(selected[number]===true) ? 'pollelem select' : 'pollelem nonselect'}>
-                    <div className={(elemVotes[number]!==0) ? 'progress-bar anim':""} style={
-                        { 'width': ((elemVotes[number] / props.votesAmount * 100).toFixed(2)) + "%"}} 
-                    />
-                </div>
-            </div>
-        )
     }
     
-    if(props.cookiesAllow===0){
-        return(
-            <div className="pollCookies">
-                <h1 class="pollheader">Этот сайт использует Cookies. Разрешить их создание и хранение?</h1>
-                <div className="pollCookiesRow">
-                    <div>{<Button link="https://mf.bmstu.ru/" text="Нет" style={String("itext")}/>}</div>
-                    {<Button text="" style={String("ispace")}/>}
-                    <div>{<Button text="Да" style={String("itext")} allowCookies={props.allowCookies}/>}</div>
-                </div>
-            </div>
-        )
-    }
-    else{
-        return(
-            <div className="poll">
-                <h1 class="pollheader">Какая музыка будет играть на следующем перерыве?</h1>
-                {map2}
-            </div>
-        )
-    }
+    return(
+        <div className="poll">
+            <h1 class="pollHeader">Какая музыка будет играть на следующем перерыве?</h1>
+            {elements}
+            
+        </div>
+    )
+    
 }
 
-const box={NavBar,ElemCont,Button};
+function cookiesPrompt(props){
+    const cookiesEnable =()=>{
+        props.allowCookies(1)
+        document.location.href="/"
+    }
+    return(
+        <div className="pollCookies" >
+            <h1 class="pollHeader">Этот сайт использует Cookies. Разрешить их создание и хранение?</h1>
+            <div className="pollCookiesRow" >
+                <div>{<Button link="https://mf.bmstu.ru/" text="Нет" style={String("itext")}/>}</div>
+                {<Button text="" style={String("ispace")}/>}
+                <div onClick={()=>{cookiesEnable()}}>{<Button text="Да" style={String("itext")}/>}</div>
+            </div>
+        </div>
+    )
+}
+
+
+const box={NavBar,Poll,Button,cookiesPrompt};
 
 export default box;

@@ -1,6 +1,12 @@
 import React from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
 
 import './css/App.css';
 
@@ -39,11 +45,15 @@ function App(){
   var m=detectMob();
 
   const [musicData,setMusic]=useState([])
-  
-
+  const [adm, setAdm]=useState(0)
+  /* 
+    All songs names(array) = musicData[0], 
+    Votes for every song(array) = musicData[1] 
+    Amount of songs = musicData[2], 
+    Amount of all votes = musicData[3] 
+  */
   useEffect(() => {
     handleUpdateRequests(-1,-1)
-    
   },[])
 
   const handleUpdateRequests =async (num,h)=>{
@@ -55,15 +65,28 @@ function App(){
 
   if(cookies.get("CookiesAllowed"))cookiesAllowed=1;
 
-  return (
-    <div className="mainLevel">
-      {<box.Button style={String("ispace")}/>} 
-      {<box.NavBar mobile={m} />}
-      <div className='spaceElement'></div>
-      {<box.ElemCont songsAmount={musicData[2]} mobile={m} music={musicData[0]} votes={musicData[1]} votesAmount={musicData[3]} updateRequest={handleUpdateRequests} allowCookies={setCookiesAllow} cookiesAllow={cookiesAllowed} />}
-      
-    </div>
-  );
+  if(cookiesAllowed){
+
+    return (
+      <div className="mainLevel">
+        {<box.Button style={String("ispace")} onClick={()=>{setAdm(1)}}/>} 
+        {<box.NavBar mobile={m} />}
+        <div className='spaceElement'></div>
+        {<box.Poll mobile={m} musicData={musicData} updateRequest={handleUpdateRequests} />}
+      </div>
+    )
+  }
+  else{
+    return (
+      <div className="mainLevel">
+        {<box.Button style={String("ispace")}/>} 
+        {<box.NavBar mobile={m} />}
+        <div className='spaceElement'></div>
+        {<box.cookiesPrompt allowCookies={setCookiesAllow}/>}
+        
+      </div>
+    );
+  }
 }
 
 export default App;

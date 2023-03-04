@@ -1,6 +1,10 @@
 
 .btnImgStyle{
-    width:40px;
+    width:50px;
+}
+
+.btnMobileImgStyle{
+  width:3em;
 }
 
 .ibmstu, .ischedule, .inote{
@@ -9,9 +13,27 @@
     flex-direction:column;
     color:white;
     align-items:center;
-    
-    width:80px;
     margin:0px 20px;
+    padding:0.6em;
+}
+
+.iNativeBtn{
+  font-size:35px;
+  border: none;
+  box-shadow: 0 0 20px 0 rgba(0,0,0, 0.5);
+  background: transparent;
+  border-radius: 20px;
+  padding:5px;
+  width:70px;
+  text-align: center;
+
+}
+
+.ibmstuM, .ischeduleM, .inoteM{
+  display: flex;
+  color:white;
+  margin:0px 25px;
+
 }
 
 .ibmstu:hover{
@@ -35,6 +57,12 @@
     display: flex;
     margin:0px 20px;
     animation: App-logo-spin-rev infinite 10s linear;
+}
+.igearM{
+  text-align: center;
+  display: flex;
+  margin:0px 20px;
+  animation: App-logo-spin-rev infinite 10s linear;
 }
 
 .itext{
