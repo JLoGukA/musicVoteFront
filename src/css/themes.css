@@ -1,0 +1,104 @@
+/* FOR EVERY THEME */
+
+.Back{
+    margin:0px 15px;
+    border-radius:20px;
+    transition: all 0.2s;
+}
+
+
+
+/* DARK */
+
+/* RED */
+.mainRed,.barRed,.pollRed{
+    transition: all 0.2s;
+    background:#2f0b0d;
+}
+
+.btnRed{
+    color:#7d1d1d;
+    filter: brightness(0) saturate(100%) invert(14%) sepia(99%) saturate(5242%) hue-rotate(346deg) brightness(86%) contrast(100%);
+}
+
+.btnRed:hover{
+    filter: brightness(0) saturate(100%) invert(4%) sepia(43%) saturate(4248%) hue-rotate(340deg) brightness(100%) contrast(97%);
+}
+.btnRedBack:hover.progressRed{
+    background:#7d1d1d;
+}
+
+/* BLUE */
+
+.mainBlue,.barBlue,.pollBlue{
+    transition: all 0.2s;
+    background:#0b212f;
+    color:#92d7ef;
+}
+
+.btnBlue, .pollBlue h1{
+    filter: invert(30%) sepia(60%) saturate(313%) hue-rotate(121deg) brightness(97%) contrast(95%);
+}
+
+.btnBlue:hover{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(74%) saturate(655%) hue-rotate(163deg) brightness(93%) contrast(94%);
+}
+
+.btnBlueBack:hover,.progressBlue{
+    background:#92d7ef;
+}
+.voteButBlue{
+    background: #92d7ef;
+    color:#0b212f;
+}
+.voteButBlue:hover{
+    background: #0b212f;
+    color:#92d7ef;
+}
+
+
+/* LIGHT */
+
+/* BLUE */
+
+.mainBlueL,.barBlueL,.pollBlueL{
+    transition: all 0.2s;
+    background:#FFFFFF;
+    color:#42a5f5;
+}
+
+.btnBlueL, .pollBlueL h1{
+    filter: brightness(0) saturate(100%) invert(59%) sepia(33%) saturate(1083%) hue-rotate(159deg) brightness(98%) contrast(96%);
+}
+
+.btnBlueL:hover{
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(221deg) brightness(104%) contrast(104%);
+}
+
+.btnBlueLBack:hover,.progressBlueL{
+    background:#42a5f5;
+    color:white;
+}
+
+.voteButBlueL{
+    background: #42a5f5;
+    color:white;
+}
+.voteButBlueL:hover{
+    background: white;
+    color:#42a5f5;
+}
+
+
+/* WHITE */
+
+.mainWhite,.barWhite,.pollwhite{
+    transition: all 0.2s;
+    background:#FFFFFF;
+    color:#42a5f5;
+}
+
+.btnWhite{
+    color:lightgray;
+    filter: invert(30%) sepia(60%) saturate(313%) hue-rotate(121deg) brightness(97%) contrast(95%);
+}

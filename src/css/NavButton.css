@@ -1,0 +1,80 @@
+.btnAll{
+  text-align: center;
+  display: flex;
+  flex-direction:column;
+  border-radius: 20px;
+  
+  align-items:center;
+  padding:0.6em;
+}
+
+.ibmstu, .ischedule, .inote,.igear,.igear img {
+  width:6em;
+  height:6em;
+  /* width:80px;
+  height:80px; */
+}
+
+.ibmstu img, .ischedule img, .inote img{
+  width:4em;
+  height:4em;
+}
+.isun,.imoon,.ispace,.isun img,.imoon img{
+  transition: all 1s;
+  height:2em;
+  width:2em;
+}
+
+.isun:not(:active){
+  animation: App-logo-spin;
+  animation-duration: 1s;
+}
+.imoon:not(:active){
+  animation: bounce;
+  animation-duration: 0.5s;
+}
+
+.ibmstuM, .ischeduleM, .inoteM,.igearM,.igearM img{
+  width:3em;
+  height:3em;
+}
+
+.igear,.igearM{
+  animation: App-logo-spin-rev infinite 10s linear;
+}
+
+.itext{
+  font-size:30px;
+  box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
+  width:50px;
+}
+
+.itext img{
+  width:50px;
+}
+
+@keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(90deg);
+    }
+}
+@keyframes App-logo-spin-rev {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+}
+@keyframes bounce {
+  from {
+    transform: translateY(-5px);
+  }
+  to {
+    transform: translateY(0px);
+    fill:none;
+  }
+}
