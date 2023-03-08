@@ -1,6 +1,7 @@
 
 body {
   /*background:linear-gradient(90deg, #225e85 0 30%, #149172);*/
+  position: relative;
   background-attachment: fixed;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;

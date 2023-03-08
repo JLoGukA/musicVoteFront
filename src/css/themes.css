@@ -37,6 +37,7 @@
 }
 
 .btnBlue, .pollBlue h1{
+    transition: all 0.2s;
     filter: invert(30%) sepia(60%) saturate(313%) hue-rotate(121deg) brightness(97%) contrast(95%);
 }
 
@@ -48,13 +49,22 @@
     background:#92d7ef;
 }
 .voteButBlue{
+    transition: all 0.2s;
     background: #92d7ef;
     color:#0b212f;
+    
 }
-.voteButBlue:hover{
+.voteButBlue:hover,.inputBlue,.inputBlue::placeholder{
     background: #0b212f;
     color:#92d7ef;
 }
+.voteButBlue:hover{outline:auto;}
+
+.inputBlue:focus{
+    outline: none;
+}
+
+
 
 
 /* LIGHT */
@@ -81,10 +91,11 @@
 }
 
 .voteButBlueL{
+    transition: all 0.2s;
     background: #42a5f5;
     color:white;
 }
-.voteButBlueL:hover{
+.voteButBlueL:hover,.inputBlueL,.inputBlueL::placeholder{
     background: white;
     color:#42a5f5;
 }

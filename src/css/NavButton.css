@@ -3,26 +3,37 @@
   display: flex;
   flex-direction:column;
   border-radius: 20px;
-  
+  margin:5px;
   align-items:center;
   padding:0.6em;
 }
 
-.ibmstu, .ischedule, .inote,.igear,.igear img {
+.menu{
+  display: flex;
+}
+
+.ibmstu, .ischedule, .inote,.igear,.igear img,.ishutdown,.idevice,.ifile{
   width:6em;
   height:6em;
   /* width:80px;
   height:80px; */
 }
 
-.ibmstu img, .ischedule img, .inote img{
-  width:4em;
+.ibmstu img, .ischedule img, .inote img,
+.idevice img,.ishutdown img,.ifile img{
+  width:5em;
   height:4em;
 }
-.isun,.imoon,.ispace,.isun img,.imoon img{
+.ispace,.ipalette,.ipalette img,.iterminal,.iterminal img,
+.ired,.igreen,.iblue,.ired img,.igreen img,.iblue img,
+.ilightDark img,.ilightDark{
   transition: all 1s;
-  height:2em;
-  width:2em;
+  height:2.5em;
+  width:2.5em;
+}
+
+.ired,.iblue,.igreen{
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .isun:not(:active){
@@ -34,7 +45,7 @@
   animation-duration: 0.5s;
 }
 
-.ibmstuM, .ischeduleM, .inoteM,.igearM,.igearM img{
+.ibmstuM, .ischeduleM, .inoteM,.igearM,.igearM img,.ischeduleM img{
   width:3em;
   height:3em;
 }
@@ -44,9 +55,9 @@
 }
 
 .itext{
-  font-size:30px;
-  box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
-  width:50px;
+  font-size:25px;
+  outline:auto;
+  padding:0.8em;
 }
 
 .itext img{
@@ -76,5 +87,16 @@
   to {
     transform: translateY(0px);
     fill:none;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    
+  }
+  100% {
+    opacity: 1;
+    
   }
 }

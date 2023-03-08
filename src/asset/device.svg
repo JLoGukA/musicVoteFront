@@ -1,0 +1,8 @@
+<svg stroke="black" xmlns="http://www.w3.org/2000/svg" version="1.1" width="300" height="300" viewBox="0 0 450 400">
+  <path id="roundedSquare" d="M100,120 h250 a50,50 0 0 1 50,50 v60 a50,50 0 0 1 -50,50 h-250 a50,50 0 0 1 -50,-50 v-60 a50,50 0 0 1 50,-50 z" stroke-linejoin="round" fill="none" stroke-width="10"/>
+  <circle id="dotL" cx="100" cy="200" r="10" stroke-linejoin="round" fill="green" stroke-width="5"/>
+  <circle id="dotL" cx="140" cy="200" r="10" stroke-linejoin="round" fill="green" stroke-width="5"/>
+  <circle id="dotR" cx="180" cy="200" r="10" stroke-linejoin="round" fill="green" stroke-width="5"/>
+  <path id="roundedSquare2" d="M250,170 h100 a20,20 0 0 1 20,20 v20 a20,20 0 0 1 -20,20 h-100 a20,20 0 0 1 -20,-20 v-20 a20,20 0 0 1 20,-20 z" stroke-linejoin="round" fill="green" stroke-width="10"/>
+
+</svg>

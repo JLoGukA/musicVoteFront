@@ -1,5 +1,4 @@
 .poll{
-
     display:flex;
     flex-direction:column;
     align-self:center;
@@ -7,17 +6,19 @@
     padding:1em;
     box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
     border-radius: 20px;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .poll h1{
     font-size: 2.5em;
     text-align: center;
-
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .poll h2{
     font-size: 1.5em;
     text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
 }
 .pollMobile{
   
@@ -45,7 +46,9 @@
     height: 4em;
     margin: 1.5em;
     box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
+    animation: fadeIn 0.5s ease-in-out;
 }
+
 .pollElem:hover{
     background-color: rgba(255, 255, 255, 0.3);
     transition: all 0.2s ease-out;
@@ -59,7 +62,7 @@
 }
   
 .pollCookies{
-
+    animation: fadeIn 0.5s ease-in-out;
     display:flex;
     flex-direction:column;
     align-items: center;
@@ -89,4 +92,14 @@
 
     }
 }
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      
+    }
+    100% {
+      opacity: 1;
+      
+    }
+  }
   

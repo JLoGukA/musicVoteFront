@@ -1,0 +1,35 @@
+.logInBox{
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    padding:2em;
+    margin:2em;
+    align-self: center;
+    align-items: center;
+    box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
+    animation: fadeIn;
+    animation-duration: 0.5s;
+}
+
+.inputField{
+    padding: 0 30px;
+	font-size: 1.5em;
+    margin: 1em;
+	height: 2em;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.5);
+    
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      
+    }
+    100% {
+      opacity: 1;
+      
+    }
+  }

@@ -21,48 +21,69 @@ function setCookiesAllow(props){
   else cookies.remove("CookiesAllowed")
 }
 
-function AppDesktop(){
-
-  const [musicData,setMusic]=useState([])
-  const [admin, setAdmin]=useState(0)
-  const [update,doUpdate]=useState(0)
-
-  const makeUpdate=(props)=>{
-    if(props!=-1)document.body.className = props;
-    doUpdate(props)
-  }
-  /* 
+/* 
     All songs names(array) = musicData[0], 
     Votes for every song(array) = musicData[1] 
     Amount of songs = musicData[2], 
     Amount of all votes = musicData[3] 
-  */
+*/
+function AppDesktop(){
+  const [musicData,setMusic]=useState([])
+  const [login, setLogin]=useState(0)
+  const [admin, setAdmin]=useState(0)
+  const [update,doUpdate]=useState(0)
+
   useEffect(() => {
     handleUpdateRequests(-1,-1)
+    makeUpdate()
   },[])
 
-  
+  const makeUpdate=()=>{
+    var v =box.updateThemeList()
+    if(v!==-1)document.body.className = v;
+    doUpdate(Math.random())
+  }
+  const lightMode=()=>{
+    var t = cookies.get("themeLight")
+
+    if(t!==undefined){
+      if(t==="0")cookies.set("themeLight",1)
+      else cookies.set("themeLight",0)
+      makeUpdate();
+    }
+  }
+
   const handleUpdateRequests =async (num,h)=>{
     let res
     if(num!==-1)res = await axios.post('http://localhost:3005/set/votes',{num,h})
     else res = await axios.get("http://localhost:3005/get/music")
     setMusic(res.data)
-    
   }
 
-  let elem
+  let elem,navbar
+  
   if(cookies.get("CookiesAllowed")){
-    elem = <box.Poll mobile={0} musicData={musicData} updateRequest={handleUpdateRequests} />
+    if(login){
+      elem = <box.LogInBox setLogin={setLogin} setAdmin={setAdmin} update={makeUpdate}/>
+    }
+    else{
+      if(admin||cookies.get("admin"))navbar = <box.NavBarAdmin mobile={0} setAdmin={setAdmin} />
+      else {
+        navbar = <box.NavBar mobile={0} />
+        elem = <box.Poll mobile={0} musicData={musicData} updateRequest={handleUpdateRequests} />
+      }
+    }
   }
-  else elem = <box.cookiesPrompt allowCookies={setCookiesAllow} makeUpdate={makeUpdate}/>
+  else elem = <box.CookiesPrompt allowCookies={setCookiesAllow} makeUpdate={makeUpdate}/>
   return (
     <div className="mainLevel">
       <div className='topLevel'>
-      {<box.Button style={String("ispace")}/>}
-      {<box.themePoll update={makeUpdate}/>}
-       
+        {<box.Button style={String("ispace")}/>}
+        {<box.Menu emplace={1} update={makeUpdate}/>}
+        {<box.Button style="ilightDark" onclick={()=>{lightMode()}}/>}
+        {<box.Button style="iterminal" onclick={()=>{setLogin(!login);makeUpdate()}} />}
       </div>
-      {<box.NavBar mobile={0} />}
+      {navbar}
       <div className='spaceElement'></div>
       {elem}
     </div>

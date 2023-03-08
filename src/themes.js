@@ -1,7 +1,7 @@
 
 //theme is number "xxx" where: 
 //component: 1xx, color: x1x, light theme: xx1
-//page: 0, navbar: 1, button: 2, poll:3, progress: 4, vote buttons: 5
+//page: 0, navbar: 1, button: 2, poll:3, progress: 4, vote buttons: 5, input fields:6
 //black: 0, white: 1, blue: 2, red: 3, green: 4
 //dark: 0, light: 1
 //No white light or dark black 
@@ -30,7 +30,8 @@ const colorStorage={
     421:"progressBlueL",
     520:"voteButBlue",
     521:"voteButBlueL",
-    
+    620:"inputBlue",
+    621:"inputBlueL",
 }
 
 function getThemeList(props){
@@ -38,12 +39,12 @@ function getThemeList(props){
     let l=[],col,light
 
     if(isNaN(col=parseInt(cookies.get("themeColor")))||isNaN(light=parseInt(cookies.get("themeLight")))){
-        for(var i=0; i<props; i++){
+        for(let i=0; i<props+1; i++){
             l.push(colorStorage[i*100+2*10+0])
         }
     }
     else{
-        for(var i=0; i<props; i++){
+        for(let i=0; i<props+1; i++){
             l.push(colorStorage[i*100+col*10+light])
         }
     }
