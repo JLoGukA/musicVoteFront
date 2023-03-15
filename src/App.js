@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 
+
 import './css/App.css';
 
 import box from "./WelcomeScreen"
@@ -38,6 +39,8 @@ function AppDesktop(){
     makeUpdate()
   },[])
 
+  
+
   const makeUpdate=()=>{
     var v =box.updateThemeList()
     if(v!==-1)document.body.className = v;
@@ -63,11 +66,14 @@ function AppDesktop(){
   let elem,navbar
   
   if(cookies.get("CookiesAllowed")){
-    if(login){
-      elem = <box.LogInBox setLogin={setLogin} setAdmin={setAdmin} update={makeUpdate}/>
+    if(admin||cookies.get("admin")){
+      navbar = <box.NavBarAdmin mobile={0} update={makeUpdate} setAdmin={setAdmin} />
+      elem=<box.AllDevices update={makeUpdate}/>
     }
     else{
-      if(admin||cookies.get("admin"))navbar = <box.NavBarAdmin mobile={0} setAdmin={setAdmin} />
+      if(login){
+        elem = <box.LogInBox setLogin={setLogin} setAdmin={setAdmin} update={makeUpdate}/>
+      }
       else {
         navbar = <box.NavBar mobile={0} />
         elem = <box.Poll mobile={0} musicData={musicData} updateRequest={handleUpdateRequests} />

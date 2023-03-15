@@ -1,0 +1,43 @@
+.deviceInfo{
+    display: grid;
+    gap:1em 1em;
+    padding:1em;
+    align-self: center;
+    grid-auto-flow: column;
+    
+    
+}
+.deviceBack{
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 0 20px 0 rgba(0,0,0, 0.5);
+
+}
+.device{
+    display:flex;
+    flex-direction: column;
+    width:10em;
+    padding:1em;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.deviceFiles{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding:1em;
+
+
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      
+    }
+    100% {
+      opacity: 1;
+      
+    }
+  }

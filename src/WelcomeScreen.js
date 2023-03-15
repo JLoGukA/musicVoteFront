@@ -1,13 +1,18 @@
 import React from 'react'
-import { useState} from 'react';
+import { useState}from 'react';
 import themes from './themes';
-import styled from 'styled-components';
+import axios from 'axios'
+import Cookies from 'universal-cookie';
+import { useEffect } from 'react';
+import {useRef} from 'react';
+
 
 import './css/NavBar.css'
 import './css/NavButton.css'
 import './css/Poll.css'
 import './css/themes.css'
 import './css/LogInBox.css'
+import './css/AdminThings.css'
 
 
 import ispace from './asset/space.png'
@@ -25,7 +30,7 @@ import idevice from './asset/device.svg'
 import ifile from './asset/file.svg'
 import ilightDark from './asset/lightDark.svg'
 
-import Cookies from 'universal-cookie';
+
 
 const tinyimage="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 const cookies = new Cookies();
@@ -74,14 +79,14 @@ function Button(props){
             cookies.remove("CookiesAllowed")
             document.location.href="/"
         }
-        if(props.onclick!==undefined)props.onclick(Math.random()/1*10);
+        if(props.onclick!==undefined)props.onclick();
         
         if(props.link!==undefined)document.location.href=props.link;
     }
     if(props.mobile){
         return(
             <div className={"Back "+ btheme+"Back"}>
-                <div className={props.menu===1 ? "btnAll "+props.style:"btnAll "+props.style+" "+btheme} onClick={()=>{onclick()}}>
+                <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+btheme} onClick={()=>{onclick()}}>
                     <img src={(dict[props.style]!==undefined) ? dict[props.style].image:tinyimage} alt={""}></img>
                 </div>
             </div>
@@ -91,7 +96,7 @@ function Button(props){
 
         return(
             <div className={"Back "+ btheme+"Back"}>
-                <div className={props.menu===1 ? "btnAll "+props.style:"btnAll "+props.style+" "+btheme} onClick={()=>{onclick()}}>
+                <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+btheme} onClick={()=>{onclick()}}>
                     <img src={(dict[props.style]!==undefined) ? dict[props.style].image:tinyimage} alt={""}></img>
                     <div style={{'height':'10px'}}></div>
                     <text>{props.text}</text>
@@ -105,54 +110,48 @@ function Button(props){
 function Menu(props){
     const [show,setShow]=useState(0)
 
-    const setVisible = (props)=>{
-        setShow(props)
-        props.update()
-    }
     const onclick=(num)=>{
         if(num===0)cookies.set("themeColor",3)
         else if(num===1)cookies.set("themeColor",4)
         else if(num===2)cookies.set("themeColor",2)
         props.update()
     }
-    var menuList =[
-        <div onClick={()=>{onclick(0)}}><Button style="ired" menu={1}/></div>,
-                <div onClick={()=>{onclick(1)}}><Button style="igreen" menu={1}/></div>,
-                <div onClick={()=>{onclick(2)}}><Button style="iblue" menu={1}/></div>
-                ]
-    if(props.elems!=undefined){
+    var menuList
+    if(show&&props.emplace===1){
+        menuList=[
+            <div onClick={()=>{onclick(0)}}><Button style={String("ired")} menu={true}/></div>,
+            <div onClick={()=>{onclick(1)}}><Button style={String("igreen")} menu={true}/></div>,
+            <div onClick={()=>{onclick(2)}}><Button style={String("iblue")} menu={true}/></div>
+            ]
+    }
+    else if(show&&props.elems!==undefined){
         menuList=[]
         for(var i=0; i<props.num; i++){
             menuList.push(props.elems[i])
         }
     }
     
-    if(show){
+    
         return(
-            <div className='menu' onMouseEnter={()=>{setVisible(1)}} onMouseLeave={()=>{setVisible(0)}}>
-                <Button style="ipalette" menu={1}/>
+            <div className='menu' onClick={()=>{setShow(!show)}}>
+                <Button style={String("ipalette")} menu={show}/>
                 {menuList}
             </div>
         )
-    }
-    else {
-        return(
-            <div style={{"z-index":'6'}} onMouseEnter={()=>{setShow(1)}}>
-                <Button style="ipalette" ></Button>
-            </div>
-        )
-    }
+    
+    
 }
 
 function InputField(props){
     const [inputText, setInputText] = useState("");
+    const [display,setDisplay]=useState(props.display)
     
     const HandleChange = (event) =>{
         setInputText(event.target.value);
     }
-
-    return(
-            <input 
+    if(props.display){
+        return(
+            <input
             className={"inputField " + themeList[6]} 
             id={props.idx!==undefined ? props.idx:""} 
             type={props.type!==undefined ? props.type:"text"} value={inputText} 
@@ -161,9 +160,13 @@ function InputField(props){
             onKeyDown={(e)=>{ props.onKey(e.key)}}
             />
         )
+    }
+    else return(<div></div>)
+    
 }
 
 function LogInBox(props){
+    
     const onKeyEnter=async(e)=>{
         if(e==="Enter"){
             const res = await fetch("http://localhost:3005/user/login", {
@@ -173,6 +176,7 @@ function LogInBox(props){
             }).then((res) => res.json());
 
             if(res===1){
+                cookies.set("admin",'1');
                 props.setAdmin(1);
                 props.setLogin(0);
                 props.update()
@@ -181,13 +185,13 @@ function LogInBox(props){
             
         }
     }
-    const l=<InputField idx="login" text="Логин"/>
-    const p =<InputField idx="pass" text="Пароль" onKey={onKeyEnter} type="password"/>
+    const l=<InputField idx="login" text="Логин" display={1}/>
+    const p =<InputField idx="pass" text="Пароль" onKey={onKeyEnter} type="password" display={1}/>
     return(
         <div className="logInBox">
             {l}
             {p}
-            <Button style='itext' text="Войти" onclick={()=>{onKeyEnter("Enter")}}/>
+            <Button style={String('itext')} text="Войти" onclick={()=>{onKeyEnter("Enter")}}/>
         </div>
     )
 }
@@ -237,8 +241,6 @@ function NavBarAdmin(props){
         return(
         <div>
             <div className={"navbar_mobile "+ntheme}>
-                
-                
                 {<Button link="https://mf.bmstu.ru/" style={String("ibmstuM")} mobile={true}/>}
                 {<Button link="http://rasp.msfu.ru/" style={String("ischeduleM")} mobile={true}/>}
                 
@@ -253,19 +255,95 @@ function NavBarAdmin(props){
         return(
                 <div className={"navbar " + ntheme}>
                     <div className="navbarchild">
-                        {<Button text="Все файлы"style="ifile"/>}
-                        {<Button text="Расписание аудио" style="ischedule"/>} 
-                        {<Button text="Подключенные устройства" style={"idevice"} />}
+                        {<Button text="Все файлы" style={String("ifile")}/>}
+                        {<Button text="Расписание аудио" style={String("ischedule")}/>} 
+                        {<Button text="Подключенные устройства" style={String("idevice")} />}
                         
                     </div>
                     
                     <div className="navbarchild">
-                        {<Button style="ishutdown" text="Выход" onclick={()=>{props.setAdmin(0)}}/>}
+                        {<Button style={String("ishutdown")} text="Выход" onclick={()=>{props.setAdmin(0);cookies.remove("admin");props.update()}}/>}
                     </div>
                     
                 </div>   
         ) 
     }
+}
+
+function AllDevices(props){
+    const [devices,setDevices]=useState([])
+    const [deviceFile,setDeviceFile]=useState([])
+    const [showFiles,setShowFiles]=useState([])
+    const fileInputRef=useRef()
+    const [textField,setTextFieldOn]=useState(false)
+    useEffect(() => {
+        getDevicesInfo()
+    },[])
+
+    let deviceID,countID=0
+    const getDevicesInfo=async()=>{
+        let getDevices = ((await axios.get("http://localhost:3005/device/info")).data)
+        setDevices(getDevices.deviceInfo)
+        
+        for(let i=0; i<getDevices.deviceFile.length;i++){
+            for(let j=0;j<getDevices.deviceFile[i].length;j++){
+                getDevices.deviceFile[i][j]=(<Button style="itext" text={getDevices.deviceFile[i][j]}/>)
+            }
+        }
+        setDeviceFile(getDevices.deviceFile)
+    }
+    let deviceArray=[]
+    deviceID=0
+    countID=0
+    
+    const handleChange=async(e)=>{
+        if(e.target.files){
+            //setFile(e.target.files.item(0))
+            const formData=new FormData()
+            formData.append('file',e.target.files.item(0))
+            formData.append('fileName',e.target.files.item(0).name)
+            formData.append('contentType',e.target.files.item(0).type)
+            formData.append('contentLength',e.target.files.item(0).size)
+            formData.append('saveDir',"files/")
+            await axios.post('http://192.168.3.3:3005/file/upload',formData)
+        }
+    }
+
+    const handleKeyDown=async(e)=>{
+        if(e==="Enter"){
+            fileInputRef.current.click()
+        }
+    }
+    
+    
+    for(let i=0; i<devices.length;i++){
+        if(deviceID!==devices[i][0]){
+            deviceArray.push(
+                <div className='deviceBack'>
+                    <div className='device'>
+                        <Button style="idevice" text={"Устройство: "+devices[i][0]} onclick={()=>{getDevicesInfo()}}/>
+                        <text>{"IP: "+devices[i][1]}</text>
+                        <Button style="itext" text="Загрузить файл" onclick={()=>{setTextFieldOn(!textField)}} />
+                        <InputField type="text" text="Куда" onKey={handleKeyDown} display={textField}/>
+                        {/* <input type="text" style={{'display':{}}} onKeyDown={(e)=>{handleKeyDown(e)}}/> */}
+                        <input type="file"  ref={fileInputRef} onChange={handleChange} style={{'display':'none'}}></input>
+                    </div>
+                    <div className='deviceFiles'>
+                        <Button style={String("itext")} text="Файлы" onclick={()=>{showFiles[i]=!showFiles[i];props.update()}}/>
+                        {showFiles[i]==true ? deviceFile[i]:<div/>}
+                    </div>
+                </div>
+            )
+        }
+        deviceID=devices[i][0]
+    }
+    
+    return(
+        <div className='deviceInfo'>
+            {deviceArray}
+            
+        </div>
+    )
 }
 
 function Poll(props){
@@ -319,7 +397,6 @@ function Poll(props){
             {elements}
         </div>
     )
-    
 }
 
 function CookiesPrompt(props){
@@ -339,5 +416,5 @@ function CookiesPrompt(props){
     )
 }
 
-
-export default {NavBar,Poll,Button,CookiesPrompt,Menu, LogInBox,NavBarAdmin,updateThemeList};
+var box={NavBar,Poll,Button,CookiesPrompt,Menu, LogInBox,NavBarAdmin,updateThemeList,AllDevices}
+export default box;
