@@ -1,3 +1,7 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 
 //theme is number "xxx" where: 
 //component: 1xx, color: x1x, light theme: xx1
@@ -5,8 +9,7 @@
 //black: 0, white: 1, blue: 2, red: 3, green: 4
 //dark: 0, light: 1
 //No white light or dark black 
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+
 
 const colorStorage={
     11:"mainWhite",
@@ -34,17 +37,19 @@ const colorStorage={
     621:"inputBlueL",
 }
 
-function getThemeList(props){
-    
+function GetThemeList(){
+    const elementsNum=6
     let l=[],col,light
+    col=parseInt(cookies.get("themeColor"))
+    light=parseInt(cookies.get("themeLight"))
 
-    if(isNaN(col=parseInt(cookies.get("themeColor")))||isNaN(light=parseInt(cookies.get("themeLight")))){
-        for(let i=0; i<props+1; i++){
-            l.push(colorStorage[i*100+2*10+0])
+    if(isNaN(col)||isNaN(light)){
+        for(let i=0; i<elementsNum+1; i++){
+            l.push(colorStorage[i*100+2*10+1])
         }
     }
     else{
-        for(let i=0; i<props+1; i++){
+        for(let i=0; i<elementsNum+1; i++){
             l.push(colorStorage[i*100+col*10+light])
         }
     }
@@ -52,5 +57,5 @@ function getThemeList(props){
     return l
 }
 
-const themes={getThemeList}
+const themes={GetThemeList}
 export default themes

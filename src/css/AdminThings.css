@@ -1,17 +1,19 @@
+@import "Animations.css";
+
 .deviceInfo{
     display: grid;
     gap:1em 1em;
     padding:1em;
     align-self: center;
     grid-auto-flow: column;
-    
+
     
 }
 .deviceBack{
     display: flex;
     border-radius: 20px;
     box-shadow: 0 0 20px 0 rgba(0,0,0, 0.5);
-
+    animation: fadeIn 0.2s;
 }
 .device{
     display:flex;
@@ -20,6 +22,7 @@
     padding:1em;
     text-align: center;
     border-radius: 20px;
+
 }
 
 .deviceFiles{
@@ -27,17 +30,13 @@
     flex-direction: column;
     text-align: center;
     padding:1em;
+}
+
+.deviceFileTable{
+  display:flex;
+  border-radius: 20px;
+  justify-content:space-between;
+  padding:0.5em;
 
 
 }
-
-@keyframes fadeIn {
-    0% {
-      opacity: 0;
-      
-    }
-    100% {
-      opacity: 1;
-      
-    }
-  }

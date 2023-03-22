@@ -1,3 +1,5 @@
+@import "Animations.css";
+
 .poll{
     display:flex;
     flex-direction:column;
@@ -57,20 +59,21 @@
 .progress-bar {
     border-radius: inherit;
     height: 100%;
-    
-    animation: progress 1.5s linear;
+    /* animation: progress-animation 0.5s linear; */
 }
   
 .pollCookies{
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
     display:flex;
     flex-direction:column;
+    text-align:center;
+    line-height: 3em;
     align-items: center;
     align-self:center;
     width:50%;
     padding:3em;
     margin:3%;
-  
+    
     box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
     border-radius: 20px;
 }
@@ -83,23 +86,4 @@
     margin:0.5em;
     padding:0.5em; 
 }
-
-@keyframes progress {
-    from {
-      width:0%;
-    }
-    to {
-
-    }
-}
-@keyframes fadeIn {
-    0% {
-      opacity: 0;
-      
-    }
-    100% {
-      opacity: 1;
-      
-    }
-  }
   

@@ -1,7 +1,7 @@
-
+@import "Animations";
 
 .navbar {
-  /*background: linear-gradient(90deg, #225e85 0 20%, #149172) no-repeat;*/
+
   position:relative;
   display: flex;
   margin:0.5em;
@@ -13,8 +13,23 @@
   align-self:center;
   width:90%;
   z-index:5;
-  /*background-size: 400% 400%;
-	animation: gradient 15s ease infinite;*/
+}
+
+.navbar-vertical{
+  position:relative;
+  display:flex;
+  flex-direction: column;
+  margin:0.5em;
+  padding:0.5em;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 20px; 
+  box-shadow: 0 0 30px 0 rgba(0,0,0, 0.5);
+  height:100%;
+  width:8em;
+  z-index:5;
+
 }
 
 .navbar:hover {
@@ -22,7 +37,6 @@
 }
 
 .navbar_mobile{
-  /* background: linear-gradient(90deg, #225e85 0 30%, #149172) no-repeat; */
   
   border-radius: 20px;
   display: flex;
@@ -47,36 +61,4 @@
   display:flex;
   flex-direction:column;
   align-items: center;
-}
-
-@-webkit-keyframes progress-animation {
-  0% {
-      width: 0
-  }
-
-  100% {
-      background-position: 0
-  }
-}
-
-@keyframes progress-animation {
-  0% {
-      width: 0
-  }
-
-  100% {
-      background-position: 0
-  }
-}
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
 }

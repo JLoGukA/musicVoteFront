@@ -1,3 +1,5 @@
+@import "Animations.css";
+
 .logInBox{
     display: flex;
     flex-direction: column;
@@ -22,14 +24,3 @@
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.5);
     
 }
-
-@keyframes fadeIn {
-    0% {
-      opacity: 0;
-      
-    }
-    100% {
-      opacity: 1;
-      
-    }
-  }

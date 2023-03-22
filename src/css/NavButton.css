@@ -26,23 +26,14 @@
 }
 .ispace,.ipalette,.ipalette img,.iterminal,.iterminal img,
 .ired,.igreen,.iblue,.ired img,.igreen img,.iblue img,
-.ilightDark img,.ilightDark{
-  transition: all 1s;
+.ilightDark img,.ilightDark,.idelete,.idelete img,
+.iupload,.iupload img{
   height:2.5em;
   width:2.5em;
 }
 
 .ired,.iblue,.igreen{
   animation: fadeIn 0.5s ease-in-out;
-}
-
-.isun:not(:active){
-  animation: App-logo-spin;
-  animation-duration: 1s;
-}
-.imoon:not(:active){
-  animation: bounce;
-  animation-duration: 0.5s;
 }
 
 .ibmstuM, .ischeduleM, .inoteM,.igearM,.igearM img,.ischeduleM img{
@@ -56,41 +47,5 @@
 
 .itext{
   text-align: center;
-  font-size:16px;
-}
-@keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(90deg);
-    }
-}
-@keyframes App-logo-spin-rev {
-    from {
-      transform: rotate(360deg);
-    }
-    to {
-      transform: rotate(0deg);
-    }
-}
-@keyframes bounce {
-  from {
-    transform: translateY(-5px);
-  }
-  to {
-    transform: translateY(0px);
-    fill:none;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    
-  }
-  100% {
-    opacity: 1;
-    
-  }
+  font-size:18px;
 }

@@ -5,7 +5,7 @@ body {
   background-attachment: fixed;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  background: #000000;/*dark*/
+  
   
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -41,6 +41,11 @@ body {
   color: #61dafb;
 }
 
+.underMainLevel{
+  display:flex;
+  flex-direction: row;
+}
+
 .mainLevel{
   display:flex;
   flex-direction:column;
@@ -51,7 +56,6 @@ body {
   flex-direction: row;
   justify-content: stretch;
   width:100%;
- 
 }
 
 .themePoll{
@@ -60,5 +64,6 @@ body {
 }
 
 .spaceElement{
-  height:2em;
+  min-height:2em;
+  min-width: 2em;
 }
