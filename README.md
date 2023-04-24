@@ -13,7 +13,7 @@
 Аппаратуре  
 
 * Esp32-CAM AI-Thinker - модуль с микроконтроллером, управляемое, проигрывающее аудио устройство.  
-Воспроизводит музыку с помощью [ESP32-audioI2S](https://github.com/schreibfaul1/ESP32-audioI2S)  
+Воспроизводит аудио с помощью [ESP32-audioI2S](https://github.com/schreibfaul1/ESP32-audioI2S)  
 и усилителя MAX98357a с подключенным к нему динамиком.
 
 * Ubuntu 22.10 server - система, на которой работает проект.  
