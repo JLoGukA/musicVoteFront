@@ -1,36 +1,42 @@
 .btnAll{
-  text-align: center;
   display: flex;
   flex-direction:column;
   border-radius: 20px;
-  margin:5px;
+  text-align: center;
   align-items:center;
-  padding:0.6em;
+  padding:0.5em;
 }
 
 .menu{
   display: flex;
 }
 
-.ibmstu, .ischedule, .inote,.igear,.igear img,.ishutdown,.idevice,.ifile{
+.ibmstu, .ischedule, .inote,.igear,.igear img,.ilogout,.idevice,.ifile{
+  justify-content: center;
   width:6em;
   height:6em;
-  /* width:80px;
-  height:80px; */
 }
 
 .ibmstu img, .ischedule img, .inote img,
-.idevice img,.ishutdown img,.ifile img{
+.idevice img,.ilogout img,.ifile img{
+  
   width:5em;
   height:4em;
 }
 .ispace,.ipalette,.ipalette img,.iterminal,.iterminal img,
 .ired,.igreen,.iblue,.ired img,.igreen img,.iblue img,
-.ilightDark img,.ilightDark,.idelete,.idelete img,
-.iupload,.iupload img{
+.ilightDark img,.ilightDark,
+.iupload,.iupload img,.iadd,.iadd img, .iupdate, .iupdate img,
+.iplay,.iplay img,.ipause,.ipause img{
   height:2.5em;
   width:2.5em;
 }
+
+.idownload,.idownload img,.idelete,.idelete img{
+  height:2em;
+  width:2em;
+}
+
 
 .ired,.iblue,.igreen{
   animation: fadeIn 0.5s ease-in-out;
@@ -46,6 +52,7 @@
 }
 
 .itext{
+  
   text-align: center;
   font-size:18px;
 }

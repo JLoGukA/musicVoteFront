@@ -2,6 +2,7 @@ import React from 'react'
 import { useState}from 'react';
 import themes from './themes';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 import './css/NavBar.css'
 import './css/NavButton.css'
@@ -20,21 +21,26 @@ import igreen from './asset/colors/green.svg'
 import iblue from './asset/colors/blue.svg'
 import ired from './asset/colors/red.svg'
 import iterminal from './asset/terminalThick.svg'
-import ishutdown from './asset/shutdown.svg'
+import ilogout from './asset/logout.svg'
 import idevice from './asset/device.svg'
 import ifile from './asset/file.svg'
 import ilightDark from './asset/lightDark.svg'
 import idelete from './asset/delete.svg'
 import iupload from './asset/upload.svg'
+import iadd from './asset/add.svg'
+import iupdate from './asset/update.svg'
+import idownload from './asset/download.svg'
+import iplay from './asset/play.svg'
+import ipause from './asset/pause.svg'
 
 const tinyimage="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+const serverIP="http://localhost:3005"
 const cookies = new Cookies();
 
 var themeList=themes.GetThemeList()
 
 function updateThemeList(){
     themeList=themes.GetThemeList();
-    //alert(themeList)
     return themeList
 }
 
@@ -50,12 +56,17 @@ const dict={
     igreen:{image:igreen},
     iblue:{image:iblue},
     iterminal:{image:iterminal},
-    ishutdown:{image:ishutdown},
+    ilogout:{image:ilogout},
     idevice:{image:idevice},
     ilightDark:{image:ilightDark},
     ifile:{image:ifile},
     idelete:{image:idelete},
     iupload:{image:iupload},
+    iadd:{image:iadd},
+    iupdate:{image:iupdate},
+    idownload:{image:idownload},
+    iplay:{image:iplay},
+    ipause:{image:ipause},
 
     inoteM:{image:inote},
     ibmstuM:{image:ibmstu},
@@ -100,9 +111,10 @@ function Button(props){
     }
 }
 
-
 function Menu(props){
     const [show,setShow]=useState(0)
+    const navigate=useNavigate()
+
 
     const onclick=(num)=>{
         if(num===0)cookies.set("themeColor",3)
@@ -127,7 +139,7 @@ function Menu(props){
     }
     return(
         <div className='menu' onClick={()=>{setShow(!show)}}>
-            <Button style={String("ipalette")} menu={show}/>
+            <Button style={String("ipalette")} theme={themeList[2]} menu={show}/>
             {menuList}
         </div>
     )
@@ -169,15 +181,44 @@ function TextArea(props){
 }
 
 const lightMode=()=>{
-    if(cookies.get("themeLight")&&cookies.get("themeCol")){
-        if(cookies.get("themeLight")==="0")cookies.set("themeLight",1)
-        else cookies.set("themeLight",0)
+    if(cookies.get("themeLight")!==undefined&&cookies.get("themeColor")!==undefined){
+        if(cookies.get("themeLight")==="0"){
+            cookies.set("themeLight",1)
+        }
+        else {
+            cookies.set("themeLight",0)
+        }
     }
     else {
-        cookies.set("themeLight",1);
-        cookies.set("themeCol",2);
+        const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+        ).matches;
+        if(prefersDark){
+            cookies.set("themeLight",1);
+            cookies.set("themeColor",2);
+        }
+        else{
+            cookies.set("themeLight",0);
+            cookies.set("themeColor",2);
+        }
     }
 }
 
-var box={Button,Menu,InputField, TextArea,updateThemeList,lightMode}
+function NavBarAdmin(props){
+    const navigate = useNavigate()
+    return(
+          <div className={"navbar " + props.theme[1]}>
+              <div className="navbarchild">
+                  {<box.Button theme={props.theme[2]} text="Файлы" style={String("ifile")} onclick={()=>{navigate('/files')}}/>}
+                  {<box.Button theme={props.theme[2]} text="Расписание" style={String("ischedule")} onclick={()=>{navigate('/schedule')}}/>} 
+                  {<box.Button theme={props.theme[2]} text="Устройства" style={String("idevice")} onclick={()=>{navigate('/devices')}}/>}   
+              </div>
+              <div className="navbarchild">
+                  {<box.Button theme={props.theme[2]} style={String("ilogout")} text="Выход" onclick={()=>{cookies.remove("admin");navigate("/");}}/>}
+              </div>
+          </div>   
+    ) 
+}
+
+var box={Button,Menu,InputField, TextArea,updateThemeList,lightMode, NavBarAdmin,serverIP}
 export default box;

@@ -16,7 +16,7 @@ function LogInBox(){
 
   const onKeyEnter=async(e)=>{
       if(e==="Enter"){
-          const res = await fetch("http://localhost:3005/user/login", {
+          const res = await fetch(box.serverIP+"/user/login", {
               method: "POST",
               headers: {"Content-Type": "application/JSON"},
               body: JSON.stringify({"login":document.getElementById("login").value,"pass":document.getElementById("pass").value})
@@ -24,7 +24,7 @@ function LogInBox(){
 
           if(res===1){
               cookies.set("admin",'1');
-              navigate('/admin');
+              navigate('/devices');
           }
           else alert("Неправильный логин или пароль")
       }
@@ -45,13 +45,13 @@ function LoginPage(){
     navigate("/")
   }
   if(cookies.get("admin")){
-    navigate("/admin")
+    navigate("/devices")
   }
   
   const [update,doUpdate]=useState(0)
   const [theme,setTheme]=useState({})
 
-  document.body.className = theme[0];
+  document.body.style="transition:all 0.2s; background:"+theme[0]+";"
 
   useEffect(() => {
     doUpdate(Math.random())

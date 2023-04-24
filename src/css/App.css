@@ -1,15 +1,19 @@
+/* :root {
+  --background: white;
+} */
+html {
+  height: 100%;
+}
 
 body {
-  /*background:linear-gradient(90deg, #225e85 0 30%, #149172);*/
+  
   position: relative;
   background-attachment: fixed;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  
-  
+
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  background: var(--background);
 }
 
 .App {
@@ -34,17 +38,17 @@ body {
 }
 
 .TextShadow {
-    text-shadow: 2px 2px 2px #8c1b21, 0 2px 2px #8c1b21, -2px 0 2px #8c1b21, 0 -2px 2px #8c1b21;
+    text-shadow: 2px 2px 2px #8c1b21, 0 2px 2px #8c1b21, -2px 0 2px #8c1b21, 0 -2px 2px #8c1b21; 
 }
 
 .App-link {
   color: #61dafb;
 }
 
-.underMainLevel{
+/* .underMainLevel{
   display:flex;
   flex-direction: row;
-}
+} */
 
 .mainLevel{
   display:flex;

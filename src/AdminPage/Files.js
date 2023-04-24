@@ -17,23 +17,6 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function NavBarAdmin(props){
-    const theme = useContext(ThemeContext)
-    const navigate = useNavigate()
-    return(
-          <div className={"navbar " + theme[1]}>
-              <div className="navbarchild">
-                  {<box.Button theme={theme[2]} text="Файлы" style={String("ifile")} onclick={()=>{navigate('/files')}}/>}
-                  {<box.Button theme={theme[2]} text="Расписание" style={String("ischedule")} onclick={()=>{navigate('/admin')}}/>} 
-                  {<box.Button theme={theme[2]} text="Устройства" style={String("idevice")} onclick={()=>{navigate('/admin')}}/>}   
-              </div>
-              <div className="navbarchild">
-                  {<box.Button theme={theme[2]} style={String("ishutdown")} text="Выход" onclick={()=>{navigate("/");cookies.remove("admin")}}/>}
-              </div>
-          </div>   
-    ) 
-}
-
 function FileTable(props){
     const theme = useContext(ThemeContext)
     const [files,setFiles]=useState({})
@@ -43,18 +26,20 @@ function FileTable(props){
     },[])
 
     const updateTable=async()=>{
+
       await axios({
-        url:"http://192.168.3.3:3005/file/generate",
+        url:box.serverIP+"/file/generate",
         method:'GET',
       }).then((res)=>{
         setFiles(res.data)
-      }).catch((error)=>{alert(error)})
+        
+      }).catch((error)=>{})
     }
     
     const download=async(file)=>{
       let encfile = encodeURI(file)
       await axios({
-          url:"http://192.168.3.3:3005/file/download",
+          url:box.serverIP+"/file/download",
           method:'GET',
           responseType:'blob',
           headers:{
@@ -72,7 +57,7 @@ function FileTable(props){
     const deleteFile=async(file)=>{
       let encname = encodeURI(file)
       await axios({
-        url:"http://192.168.3.3:3005/file/delete",
+        url:box.serverIP+"/file/delete",
         method:'POST',
         headers:{
           'gen':1,
@@ -103,7 +88,7 @@ function FileTable(props){
           }
         }).then((res)=>{
           setFiles(res.data)
-        }).catch((error)=>{alert(error)})
+        }).catch((error)=>{})
       }        
     }
 
@@ -124,11 +109,11 @@ function FileTable(props){
             <div style={{'display':'flex'}}>
               <box.InputField idx="inputGenName" theme={theme[6] + " textAudioInput"} onKey={handleKeyDown} text={"Имя файла"} display={true}/>
               <box.Button theme={theme[2]} style="iupload" className='shareButton' onclick={()=>{handleKeyDown("Enter")}}/>
-              <box.Button theme={theme[2]} style={String("ilightDark")} onclick={()=>{updateTable()}}/>
+              <box.Button theme={theme[2]} style={String("iupdate")} onclick={()=>{updateTable()}}/>
             </div>
             <box.TextArea idx="inputGenText" theme={theme[6] + " textArea"} onKey={handleKeyDown} text={"Текст для генерации"} display={true}/>
           </div>
-          <div style={{'display':'flex','flex-direction':'column'}}>
+          <div className="fileArea">
             {fileArr}
           </div>
         </div>
@@ -144,7 +129,8 @@ function Files(){
   const [update,doUpdate]=useState(0)
   const [theme,setTheme]=useState({})
 
-  document.body.className = theme[0];
+  document.body.style="transition:all 0.2s; background:"+theme[0]+";"
+
 
   useEffect(() => {
     doUpdate(Math.random())
@@ -156,7 +142,7 @@ function Files(){
 
   let elem,navbar
   
-  navbar = <ThemeContext.Provider value={theme}><NavBarAdmin mobile={0} update={doUpdate} /></ThemeContext.Provider>
+  navbar = <ThemeContext.Provider value={theme}><box.NavBarAdmin theme={theme}/></ThemeContext.Provider>
   elem=<ThemeContext.Provider value={theme}><FileTable/></ThemeContext.Provider>
   return (
       <div className="mainLevel">

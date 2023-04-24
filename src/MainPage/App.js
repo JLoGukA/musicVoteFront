@@ -1,4 +1,4 @@
-import React from 'react'
+//import React from 'react'
 import axios from 'axios'
 import { useState, useEffect, useContext, createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ function CookiesPrompt(){
   return(
       <div className={"pollCookies " +theme[3]}>
           <h1 class="pollHeader">Этот сайт использует Cookies. Разрешить их создание и хранение?</h1>
+          
           <div className="pollCookiesRow">
               <box.Button theme={theme[2]} link="https://mf.bmstu.ru/" text="Нет" style={String("itext")}/>
               <div className='spaceElement'></div>
@@ -40,11 +41,14 @@ function CookiesPrompt(){
 
 function NavBar(props){
   const theme = useContext(ThemeContext)
+
+  
+  
   return(
         <div className={"navbar " + theme[1]}>
             <div className="navbarchild">
                 {<box.Button theme={theme[2]} link="https://mf.bmstu.ru/" text="МФ МГТУ" style={String("ibmstu")}/>}
-                {<box.Button theme={theme[2]} link="http://rasp.msfu.ru/" text="Расписание" style={String("ischedule")}/>} 
+                {<box.Button theme={theme[2]} link="http://rasp.msfu.ru/" text="Расписание" style={String("ischedule")} onclick={()=>{test()}}/>} 
             </div>
             
             <div className="navbarchild">
@@ -119,7 +123,8 @@ function AppDesktop(){
   const [update,doUpdate]=useState(0)
   const [theme,setTheme]=useState({})
 
-  document.body.className = theme[0];
+  
+  document.body.style="transition:all;height: 100%; 0.2s; background:"+theme[0]+";"
 
   useEffect(() => {
     handleUpdateRequests(-1,-1)
@@ -132,8 +137,8 @@ function AppDesktop(){
 
   const handleUpdateRequests =async (num,h)=>{
     let res
-    if(num!==-1)res = await axios.post('http://localhost:3005/set/votes',{num,h})
-    else res = await axios.get("http://localhost:3005/get/music")
+    if(num!==-1)res = await axios.post(box.serverIP+"/set/votes",{num,h})
+    else res = await axios.get(box.serverIP+"/get/music")
     setMusic(res.data)
   }
 

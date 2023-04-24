@@ -1,21 +1,24 @@
 /* FOR EVERY THEME */
 
 .Back{
-    margin:0px 15px;
+    margin:0px 10px;
     border-radius:20px;
     transition: all 0.2s;
+    align-self: center;
+    font-weight: 500;
 }
 
 /* DARK */
 
 /* RED */
-.mainRed,.barRed,.pollRed{
+
+.barRed,.pollRed{
     transition: all 0.2s;
-    background:#2f0b0d;
+    background:#ffd193;
 }
 
 .btnRed{
-    color:#7d1d1d;
+    color:#90e0d1;
     filter: brightness(0) saturate(100%) invert(14%) sepia(99%) saturate(5242%) hue-rotate(346deg) brightness(86%) contrast(100%);
 }
 
@@ -28,15 +31,18 @@
 
 /* BLUE */
 
-.mainBlue,.barBlue,.pollBlue{
-    transition: all 0.2s;
+.textBlue{
+    color:#92d7ef;
+    font-size:18px;
+    align-self:center;
+}
+.barBlue,.pollBlue{
     background:#0b212f;
     color:#92d7ef;
 }
 
 .btnBlue, .pollBlue h1{
-    transition: all 0.2s;
-    filter: invert(30%) sepia(60%) saturate(313%) hue-rotate(121deg) brightness(97%) contrast(95%);
+    filter: brightness(0) saturate(100%) invert(75%) sepia(42%) saturate(460%) hue-rotate(120deg) brightness(98%) contrast(87%);
 }
 
 .btnBlue:hover{
@@ -58,53 +64,139 @@
 }
 .voteButBlue:hover{outline:auto;}
 
-.inputBlue:focus{
-    outline: none;
+/* LIGHT */
+
+/* RED */
+
+.shadowRedL{
+    box-shadow: 0px 0px 15px 0px #cb4343;
 }
 
+.textRedL{
+    color:#cb4343;
+    font-size:18px;
+    align-self:center;
+}
 
+.barRedL,.pollRedL{
+    background:#FFFFFF;
+    color:#cb4343;
+}
 
+.btnRedL, .pollRedL h1{
+    filter: brightness(0) saturate(100%) invert(35%) sepia(77%) saturate(694%) hue-rotate(316deg) brightness(89%) contrast(100%);
+    
+}
 
-/* LIGHT */
+.btnRedL:hover{
+    /*set white color, don't change*/
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(221deg) brightness(104%) contrast(104%);
+    
+}
+
+.btnRedLBack:hover,.progressRedL{
+    background:#cb4343;
+    color:white;
+}
+
+.voteButRedL{
+    transition: all 0.2s;
+    background: #cb4343;
+    color:white;
+}
+.voteButRedL:hover,.inputRedL,.inputRedL::placeholder{
+    background: white;
+    color:#cb4343;
+}
 
 /* BLUE */
 
-.mainBlueL,.barBlueL,.pollBlueL{
-    transition: all 0.2s;
+.shadowBlueL{
+    box-shadow: 0px 0px 15px 0px #4472ca;
+}
+
+.textBlueL{
+    color:#4472ca;
+    font-size:18px;
+    align-self:center;
+}
+
+.barBlueL,.pollBlueL{
     background:#FFFFFF;
-    color:#42a5f5;
+    color:#4472ca;
 }
 
 .btnBlueL, .pollBlueL h1{
-    filter: brightness(0) saturate(100%) invert(59%) sepia(33%) saturate(1083%) hue-rotate(159deg) brightness(98%) contrast(96%);
+    filter: brightness(0) saturate(100%) invert(46%) sepia(13%) saturate(4246%) hue-rotate(189deg) brightness(86%) contrast(82%);
 }
 
 .btnBlueL:hover{
+    /*set white color, don't change*/
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(221deg) brightness(104%) contrast(104%);
 }
 
 .btnBlueLBack:hover,.progressBlueL{
-    background:#42a5f5;
+    background:#4472ca;
     color:white;
 }
 
 .voteButBlueL{
     transition: all 0.2s;
-    background: #42a5f5;
+    background: #4472ca;
     color:white;
 }
 .voteButBlueL:hover,.inputBlueL,.inputBlueL::placeholder{
     background: white;
-    color:#42a5f5;
+    color:#4472ca;
 }
 
+/* GREEN */
+
+.shadowGreenL{
+    box-shadow: 0px 0px 15px 0px #52cb43;
+}
+
+.textGreenL{
+    color:#52cb43;
+    font-size:18px;
+    align-self:center;
+}
+
+.barGreenL,.pollGreenL{
+    background:#FFFFFF;
+    color:#52cb43;
+}
+
+.btnGreenL, .pollGreenL h1{
+    filter: brightness(0) saturate(100%) invert(31%) sepia(21%) saturate(1441%) hue-rotate(65deg) brightness(103%) contrast(90%);
+}
+
+.btnGreenL:hover{
+    /*set white color, don't change*/
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(221deg) brightness(104%) contrast(104%);
+}
+
+.btnGreenLBack:hover,.progressGreenL{
+    background:#449f34;
+    color:white;
+}
+
+.voteButGreenL{
+    transition: all 0.2s;
+    background: #449f34;
+    color:white;
+}
+.voteButGreenL:hover,.inputGreenL,.inputGreenL::placeholder{
+    background: white;
+    color:#449f34;
+}
 
 /* WHITE */
 
 .mainWhite,.barWhite,.pollwhite{
     transition: all 0.2s;
     background:#FFFFFF;
-    color:#42a5f5;
+    color:#449f34;
 }
 
 .btnWhite{

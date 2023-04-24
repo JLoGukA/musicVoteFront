@@ -1,42 +1,42 @@
 @import "Animations.css";
 
-.deviceInfo{
+.deviceTable{
     display: grid;
-    gap:1em 1em;
+    gap:2em 2em;
     padding:1em;
     align-self: center;
     grid-auto-flow: column;
-
-    
 }
 .deviceBack{
     display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    background: #fff;
     border-radius: 20px;
-    box-shadow: 0 0 20px 0 rgba(0,0,0, 0.5);
     animation: fadeIn 0.2s;
+    box-shadow: 0px 0px 5px 0px #555;
+    
 }
 .device{
     display:flex;
-    flex-direction: column;
-    width:10em;
+    align-self: center;
     padding:1em;
     text-align: center;
     border-radius: 20px;
-
 }
 
-.deviceFiles{
+.deviceFiles,.deviceInfo{
     display: flex;
     flex-direction: column;
-    text-align: center;
+    flex-flow: column wrap;
     padding:1em;
 }
 
 .deviceFileTable{
   display:flex;
+  margin:0.2em;
   border-radius: 20px;
   justify-content:space-between;
   padding:0.5em;
-
-
+  box-shadow: 0px 0px 3px 0px #888;
 }

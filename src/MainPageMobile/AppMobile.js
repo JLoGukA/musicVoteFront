@@ -58,8 +58,8 @@ function AppMobile(){
 
   const handleUpdateRequests =async (num,h)=>{
     let res
-    if(num!==-1)res = await axios.post('http://localhost:3005/set/votes',{num,h})
-    else res = await axios.get("http://localhost:3005/get/music")
+    if(num!==-1)res = await axios.post(box.serverIP+"/set/votes",{num,h})
+    else res = await axios.get(box.serverIP+"/get/music")
     setMusic(res.data)
   }
 

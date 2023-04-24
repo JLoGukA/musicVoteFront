@@ -1,0 +1,33 @@
+table{
+    padding:2dvh;
+    width:100dvh;
+    align-self: center;
+}
+
+table td{
+    text-align: center;
+    outline: 1px solid #aaa;
+}
+
+table td textarea,table td input{
+    width:100%;
+    border:none;
+    outline:none;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+table td select{
+    padding:1em;
+    border:none;
+}
+
+table tr:nth-child(even),table tr:nth-child(even) textarea,table tr:nth-child(even) input,table tr:nth-child(even) select{
+    background: #e2e2e2;
+    min-width: 5em;
+}
+table tr:nth-child(odd),table tr:nth-child(odd) textarea,table tr:nth-child(odd) input,table tr:nth-child(odd) select{
+    background: #fff;
+    min-width: 5em;
+}

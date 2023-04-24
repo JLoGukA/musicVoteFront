@@ -5,8 +5,9 @@ import './css/index.css';
 import AppMobile from './MainPageMobile/AppMobile';
 import AppDesktop from './MainPage/App';
 import LoginPage from './LoginPage/LoginPage';
-import AdminPage from './AdminPage/AdminPage';
+import Devices from './AdminPage/Devices';
 import Files from './AdminPage/Files';
+import Schedule from './AdminPage/schedule';
 
 function detectMob() {
   const toMatch = [
@@ -24,6 +25,10 @@ function detectMob() {
   });
 }
 
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,14 +39,17 @@ const router = createBrowserRouter([
     element:<LoginPage/>
   },
   {
-    path:'/admin',
-    element:<AdminPage/>
+    path:'/devices',
+    element:<Devices/>
   },
   {
     path:'/files',
     element:<Files/>
+  },
+  {
+    path:'/schedule',
+    element:<Schedule/>
   }
-  
 ]);
 
 
