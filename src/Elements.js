@@ -32,6 +32,7 @@ import iupdate from './asset/update.svg'
 import idownload from './asset/download.svg'
 import iplay from './asset/play.svg'
 import ipause from './asset/pause.svg'
+import ipower from './asset/power.svg'
 
 const tinyimage="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 const serverIP="http://localhost:3005"
@@ -67,6 +68,7 @@ const dict={
     idownload:{image:idownload},
     iplay:{image:iplay},
     ipause:{image:ipause},
+    ipower:{image:ipower},
 
     inoteM:{image:inote},
     ibmstuM:{image:ibmstu},
@@ -86,8 +88,6 @@ function Button(props){
         
         if(props.link!==undefined)document.location.href=props.link;
     }
-
-    
     if(props.mobile){
         return(
             <div className={"Back "+ props.theme+"Back"}>
@@ -98,13 +98,11 @@ function Button(props){
         )
     }
     else{
-
         return(
             <div className={"Back "+ props.theme+"Back"}>
                 <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+props.theme} onClick={()=>{onclick()}}>
                     <img src={(dict[props.style]!==undefined) ? dict[props.style].image:tinyimage} alt={""}></img>
-                    <div style={{'height':'10px'}}></div>
-                    <text className='itext'>{(props.text) ? props.text:" "}</text>
+                    <div className='itext'>{(props.text) ? props.text:" "}</div>
                 </div>
             </div>
         )
@@ -156,7 +154,8 @@ function InputField(props){
             <input
             className={"inputField " + props.theme} 
             id={props.idx!==undefined ? props.idx:""} 
-            type={props.type!==undefined ? props.type:"text"} value={inputText} 
+            type={props.display ? "text":"hidden"} 
+            value={inputText} 
             onChange={HandleChange} 
             placeholder={props.text!==undefined ? props.text:""}
             onKeyDown={(e)=>{ props.onKey(e.key)}}

@@ -30,6 +30,16 @@
     flex-direction: column;
     flex-flow: column wrap;
     padding:1em;
+    transition: all 0.2s;
+}
+
+.deviceButtons{
+    display: flex;
+    align-self:center;
+    /* flex-direction: column;
+    flex-flow: column wrap; */
+    padding:1em;
+    transition: all 0.2s;
 }
 
 .deviceFileTable{
@@ -39,4 +49,20 @@
   justify-content:space-between;
   padding:0.5em;
   box-shadow: 0px 0px 3px 0px #888;
+}
+
+.inputConfig{
+    font-size: 22px;
+    align-self:stretch;
+    margin: 10px;
+    outline:none;
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.inputConfig:focus{
+    box-shadow:none;
+    outline:auto;
 }

@@ -15,24 +15,41 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const configDictionary={
+    0:"ИД",
+    1:"Громкость",
+    2:"LRC",
+    3:"BCK",
+    4:"DATA",
+    5:"Имя WiFi",
+    6:"Пароль WiFi",
+    7:"Адрес сервера",
+    8:"Порт сервера",
+    9:"Имя точки доступа",
+    10:"Пароль точки доступа",
+    11:"Сервер времени",
+    12:"Смещение по времени(сек)",
+}
+
 
 function AllDevices(props){
     const [devices,setDevices]=useState({})
     const [deviceFile,setDeviceFile]=useState({})
+    const [deviceConfig,setDeviceConfig]=useState({})
     const [showFiles,setShowFiles]=useState({})
-    const fileInputRef=useRef()
-    const [textField,setTextFieldOn]=useState({})
+    const [showTextField,setShowTextField]=useState({})
+    const [showConfigField,setShowConfig]=useState({})
     const [playNowField,setPlayNowField]=useState({})
     const [info,setInfo]=useState(0)
+    const fileInputRef=useRef()
     const theme = useContext(ThemeContext)
-
+    const arr={0:[21,15,0,1,3],1:[36,15,0,1,3]}
     const updateDevices=async(id)=>{
         const getDevicesInfo=async()=>{
             await((axios.get(box.serverIP+"/device/info"))).then((res)=>{
                 setDevices(res.data.deviceInfo)
                 setDeviceFile(res.data.deviceFile)
-                
-                
+                setDeviceConfig(res.data.deviceConfig)
             })
         }
         
@@ -52,6 +69,7 @@ function AllDevices(props){
     useEffect(() => {
         updateDevices()
     },[])
+
     const handleChange=async(e)=>{
         if(e.target.files){
           
@@ -146,7 +164,41 @@ function AllDevices(props){
             fileInputRef.current.click()
         }
     }
-    let array=[]
+
+    const changeDeviceConfig=async(e,param,value,ip)=>{
+        if(e=="Enter"){
+            let encvalue = encodeURI(value)
+            axios.get(box.serverIP+"/device/updateConfig",{headers:{
+                "param":param,
+                "value":encvalue,
+                "ip":ip
+            }}).then((res)=>{if(res.status===200)alert("Перезагрузите устройство для обновления настроек")})
+        }
+    }
+
+    const restart=async(ip)=>{
+        axios.get(box.serverIP+"/device/restart",{headers:{
+            "ip":ip
+        }}).then((res)=>{if(res.status===200)alert("Перезагружено")})
+    }
+
+    let array=[],configArray=[]
+    for(let i=0; i<deviceConfig.length;i++){
+        configArray.push([])
+        for(let j=0;j<deviceConfig[i].length;j++){
+            
+            configArray[i].push(
+                <input id = {""+i+j} 
+                type="text" 
+                className={"inputConfig "+theme[6]} 
+                placeholder={configDictionary[j]+": "+ deviceConfig[i][j]} 
+                onKeyDown={(e)=>{changeDeviceConfig(e.key,j,document.getElementById(""+i+j).value,devices[i][1])}}
+                />
+            )
+        }
+        
+    }
+
     
     for(let i=0; i<deviceFile.length;i++){
         array.push([])
@@ -154,7 +206,7 @@ function AllDevices(props){
             array[i].push(
                 <div className={'deviceFileTable'}>
                     <div style={{'display':'flex'}}>
-                        <text className={theme[7]}>{j+1}</text>
+                        <p className={theme[7]}>{j+1}</p>
                         <box.Button theme={theme[2]} style={String("itext")} text={deviceFile[i][j]} onclick={() => {fileManage(deviceFile[i][j],i,2)}}/>
                     </div>
                     
@@ -181,7 +233,8 @@ function AllDevices(props){
                     <div className='device'>
                         <box.Button theme={theme[2]} style={String("idevice")} text={"Устройство: "+devices[i][0]} onclick={()=>{updateDevices(i)}}/>
                         <div className='deviceInfo'>
-                            <text className={theme[7]}>{"Адрес: "+devices[i][1]}</text>
+                            <p className={theme[7]}>{"Адрес: "+devices[i][1]}</p>
+                            
                             {(devices[i][3]!==""&&devices[i][3]!=undefined) ? 
                             <div style={{'display':'flex'}}>
                                 <p className={theme[7]}>{"Играет: "+devices[i][3]}</p>
@@ -196,12 +249,23 @@ function AllDevices(props){
                         
                     </div>
                     <div className='deviceFiles'>
+
+                        <div className='deviceButtons'>
+                            
+                            <box.Button theme={theme[2]} style={String("itext")} text="Файлы" onclick={()=>{showFiles[i]=!showFiles[i];setInfo(Math.random())}}/>
+                            <box.Button theme={theme[2]} style={String("itext")} text="Загрузить файл" onclick={()=>{showTextField[i]=!showTextField[i];setInfo(Math.random())}} />
+                            <box.Button theme={theme[2]} style={String("itext")} text="Настройки" onclick={()=>{showConfigField[i]=!showConfigField[i];setInfo(Math.random())}} />
+                            <box.Button theme={theme[2]} style={String("ipower")} onclick={()=>{restart(devices[i][1])}}/> 
+                        </div>
                         
-                        <box.Button theme={theme[2]} style={String("itext")} text="Файлы" onclick={()=>{showFiles[i]=!showFiles[i];setInfo(Math.random())}}/>
                         {(showFiles[i]===true) ? array[i]:<div/>}
-                        <box.Button theme={theme[2]} style={String("itext")} text="Загрузить файл" onclick={()=>{textField[i]=!textField[i];setInfo(Math.random())}} />
-                        <box.InputField theme={theme[6]} idx="FileSaveDir" type="text" text="введите директорию или нажмите на файл" onKey={handleKeyDown} display={textField[i]}/>
-                        
+                        <input className={"inputField " + theme[6]} 
+                            id="FileSaveDir" 
+                            type={showTextField[i] ? "text":"hidden"} 
+                            placeholder={"введите директорию или нажмите на файл"}
+                            onKeyDown={(e)=>{ handleKeyDown(e.key) }}
+                        />
+                        {(showConfigField[i]===true) ? configArray[i]:<div/>}
                       
                     </div>
                 </div>

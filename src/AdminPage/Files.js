@@ -79,7 +79,7 @@ function FileTable(props){
         if(text.length===0)return
         
         await axios({
-          url:"http://192.168.3.3:3005/file/generate",
+          url:box.serverIP+"/file/generate",
           method:'GET',
           
           headers:{
