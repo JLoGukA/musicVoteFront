@@ -42,7 +42,6 @@ function AllDevices(props){
     const [playNowField,setPlayNowField]=useState({})
     const [info,setInfo]=useState(0)
     const fileInputRef=useRef()
-    const arr={0:[21,15,0,1,3],1:[36,15,0,1,3]}
     const updateDevices=async(id)=>{
         const getDevicesInfo=async()=>{
             await((axios.get(box.serverIP+"/device/info"))).then((res)=>{
@@ -151,7 +150,7 @@ function AllDevices(props){
         else if(act===2){//upload
             setInfo(num)
             let i=dir.length-1
-            while(i!=-1&&dir[i]!=='/')i--;
+            while(i!==-1&&dir[i]!=='/')i--;
             let str=dir.slice(0,++i)
             navigator.clipboard.writeText(str)
             document.getElementById('FileSaveDir').value=str
@@ -165,7 +164,7 @@ function AllDevices(props){
     }
 
     const changeDeviceConfig=async(e,param,value,ip)=>{
-        if(e=="Enter"){
+        if(e==="Enter"){
             let encvalue = encodeURI(value)
             axios.get(box.serverIP+"/device/updateConfig",{headers:{
                 "param":param,
@@ -241,10 +240,10 @@ function AllDevices(props){
                         <div className='deviceInfo'>
                             <p className={theme[7]}>{"Адрес: "+devices[i][1]}</p>
                             
-                            {(devices[i][3]!==""&&devices[i][3]!=undefined) ? 
+                            {(devices[i][3]!==""&&devices[i][3]!==undefined) ? 
                             <div style={{'display':'flex'}}>
                                 <p className={theme[7]}>{"Играет: "+devices[i][3]}</p>
-                                <box.Button style={"ipause"} onclick={async()=>{await playNow(i,devices[i][0],devices[i][1],"STOP")}} />
+                                <box.Button style={String("ipause")} onclick={async()=>{await playNow(i,devices[i][0],devices[i][1],"STOP")}} />
                             </div>:<></>}
                             
                         </div>

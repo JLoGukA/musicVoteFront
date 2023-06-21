@@ -91,7 +91,6 @@ function Poll(props){
   const allVotes = useRef(parseInt(props.allVotes))
   const buttons = useRef([])
   const dateend = useRef(new Date(props.dateend.slice(0,16)))
-  const [ui,updateUI]=useState(0)
 
   useEffect(()=>{
     buttons.current = createButtons()
@@ -107,7 +106,7 @@ function Poll(props){
     }
     for(let i=0; i<props.buttonArray.length;i++){
       buttons.push(
-        active==1 ?
+        active===1 ?
         <div className={'pollElem '+theme[5]} onClick={() => {votes.current[i]++;allVotes.current++;updateVotes(props.buttonArray[i][0])}}>
           <h2>{props.buttonArray[i][0]}</h2>
         </div>
@@ -115,7 +114,7 @@ function Poll(props){
         <div className="elemCont">
           <h2>{props.buttonArray[i][0] + " - "+(parseInt(votes.current[i]) / allVotes.current).toFixed(2)*100+ "%"}</h2>
           <div className={'pollElem '}>
-              <div className={allVotes.current!=0 ? "progress-bar "+theme[4]:""} style={
+              <div className={allVotes.current!==0 ? "progress-bar "+theme[4]:""} style={
                   { 'width': (parseInt(votes.current[i]) / allVotes.current).toFixed(2)* 100 + "%"}}>
               </div>
           </div>
