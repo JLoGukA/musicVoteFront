@@ -11,14 +11,13 @@ import '../css/FileTable.css'
 import box from "../Elements"
 
 const cookies = new Cookies();
-const ThemeContext = createContext(box.updateThemeList())
+var theme
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function FileTable(props){
-    const theme = useContext(ThemeContext)
     const [files,setFiles]=useState({})
 
     useEffect(()=>{
@@ -81,13 +80,12 @@ function FileTable(props){
         await axios({
           url:box.serverIP+"/file/generate",
           method:'GET',
-          
           headers:{
               'file': encname,
               'text': enctext
           }
         }).then((res)=>{
-          setFiles(res.data)
+          updateTable()
         }).catch((error)=>{})
       }        
     }
@@ -96,23 +94,23 @@ function FileTable(props){
     for(let i=0; i<files.length;i++){
       fileArr.push(
         <div className='fileTableRow'>
-          <box.Button theme={theme[2]} style={String("itext")} text={files[i]} onclick={()=>{download(files[i])}}/>
+          <box.Button style={String("itext")} text={files[i]} onclick={()=>{download(files[i])}}/>
           <div className='spaceElement'/>
-          <box.Button theme={theme[2]} style={String("idelete")} onclick={()=>{deleteFile(files[i])}}/>
+          <box.Button style={String("idelete")} onclick={()=>{deleteFile(files[i])}}/>
         </div>
       )
     }
 
     return(
-        <div className="textAudioTable">
-          <div className={theme[7]+" textAreaBack"} >
+        <div className={"backSurface "+theme[7]}>
+          <span>
             <div style={{'display':'flex'}}>
-              <box.InputField idx="inputGenName" theme={theme[6] + " textAudioInput"} onKey={handleKeyDown} text={"Имя файла"} display={true}/>
-              <box.Button theme={theme[2]} style="iupload" className='shareButton' onclick={()=>{handleKeyDown("Enter")}}/>
-              <box.Button theme={theme[2]} style={String("iupdate")} onclick={()=>{updateTable()}}/>
+              <input type="text" id="inputGenName" className={"textInput "+theme[6]} onKeyDown={(e)=>{handleKeyDown(e.key)}} placeholder="Имя файла"/>
+              <box.Button style="iupload" className='shareButton' onclick={()=>{handleKeyDown("Enter")}}/>
+              <box.Button style={String("iupdate")} onclick={()=>{updateTable()}}/>
             </div>
-            <box.TextArea idx="inputGenText" theme={theme[6] + " textArea"} onKey={handleKeyDown} text={"Текст для генерации"} display={true}/>
-          </div>
+            <textarea id="inputGenText" className={theme[6] + " textArea"} onKeyDown={(e)=>{handleKeyDown(e.key)}} placeholder="Текст для генерации"/>
+          </span>
           <div className="fileArea">
             {fileArr}
           </div>
@@ -124,33 +122,31 @@ function FileTable(props){
 function Files(){
     
   const navigate = useNavigate()
+  const [update,setUpdate]=useState(0)
+  theme = useContext(box.ThemeContext)
   if(cookies.get("CookiesAllowed")===undefined||cookies.get("admin")===undefined){navigate("/")}
-
-  const [update,doUpdate]=useState(0)
-  const [theme,setTheme]=useState({})
-
   document.body.style="transition:all 0.2s; background:"+theme[0]+";"
 
-
   useEffect(() => {
-    doUpdate(Math.random())
+    updateUI()
   },[])
 
-  useEffect(()=>{
-    setTheme(box.updateThemeList())
-  },[update])
+  const updateUI=()=>{
+    box.ThemeContext = createContext(box.updateThemeList())
+    setUpdate(Math.random())
+  }
 
   let elem,navbar
   
-  navbar = <ThemeContext.Provider value={theme}><box.NavBarAdmin theme={theme}/></ThemeContext.Provider>
-  elem=<ThemeContext.Provider value={theme}><FileTable/></ThemeContext.Provider>
+  navbar = <box.ThemeContext.Provider value={theme}><box.NavBarAdmin/></box.ThemeContext.Provider>
+  elem=<box.ThemeContext.Provider value={theme}><FileTable/></box.ThemeContext.Provider>
   return (
       <div className="mainLevel">
         <div className='topLevel'>
           {<box.Button  style={String("ispace")}/>}
-          {<box.Menu emplace={1} update={doUpdate}/>}
-          {<box.Button theme={theme[2]} style={String("ilightDark")} onclick={()=>{box.lightMode();doUpdate(Math.random())}}/>}
-          {<box.Button theme={theme[2]} style={String("iterminal")} onclick={()=>{navigate('/')}} />}
+          {<box.Menu emplace={1} update={updateUI}/>}
+          {<box.Button style={String("ilightDark")} onclick={()=>{box.lightMode();updateUI()}}/>}
+          {<box.Button style={String("iterminal")} onclick={()=>{navigate('/')}} />}
         </div>
         {navbar}
         <div className='spaceElement'></div>

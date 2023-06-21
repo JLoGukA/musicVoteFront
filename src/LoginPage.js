@@ -3,9 +3,9 @@ import { useState, useEffect, useContext, createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
-import '../css/App.css';
+import './css/App.css';
 
-import box from "../Elements"
+import box from "./Elements"
 
 const cookies = new Cookies();
 const ThemeContext = createContext(box.updateThemeList())
@@ -30,9 +30,9 @@ function LogInBox(){
       }
   }
   return(
-      <div className="logInBox">
-          <box.InputField theme={theme[6]} idx="login" text="Логин" display={true}/>
-          <box.InputField theme={theme[6]} idx="pass" text="Пароль" onKey={onKeyEnter} type="password" display={true}/>
+      <div className={"loginSurface "+theme[7]}>
+          <input type="text" className={"textInput "+theme[6]} id="login" placeholder="Логин"/>
+          <input type="password" id="pass" className={"textInput "+theme[6]}  placeholder="Пароль" onKeyDown={(e)=>{onKeyEnter(e.key)}}/>
           <box.Button theme={theme[2]} style={String('itext')} text="Войти" onclick={()=>{onKeyEnter("Enter")}}/>
       </div>
   )
@@ -45,7 +45,7 @@ function LoginPage(){
     navigate("/")
   }
   if(cookies.get("admin")){
-    navigate("/devices")
+    navigate("/voteSettings")
   }
   
   const [update,doUpdate]=useState(0)

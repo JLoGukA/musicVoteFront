@@ -6,7 +6,7 @@ const cookies = new Cookies();
 //theme is number "xxx" where: 
 //component: 1xx, color: x1x, light theme: xx1
 
-//page: 0, navbar: 1, button: 2, poll:3, progress: 4, vote buttons: 5, input fields:6, text:7, table:8
+//page: 0, navbar: 1, button: 2, poll:3, progress-bar: 4, vote buttons: 5, input fields:6, text:7, table:8
 //black: 0, white: 1, blue: 2, red: 3, green: 4
 //dark: 0, light: 1
 //No dark black 
@@ -16,11 +16,11 @@ const cookies = new Cookies();
 //background: linear-gradient(0.6turn, #3f87a6, #ebf8e1);
 const colorStorage={
     11:"mainWhite",
-    20:"#0b212f",
+    20:"#121212",
     21:"linear-gradient(230deg, #a2c1ff, #ffffff) no-repeat",
-    30:"#ffdfb6",
+    30:"#121212",
     31:"linear-gradient(230deg, #ffa2a2, #ffffff) no-repeat",
-    40:"linear-gradient(230deg, #ffa2a2, #ffffff) no-repeat",
+    40:"#121212",
     41:"linear-gradient(230deg, #aaffa2, #ffffff) no-repeat",
     111:"barWhite",
     120:"barBlue",
@@ -61,28 +61,38 @@ const colorStorage={
     631:"inputRedL",
     640:"inputGreen",
     641:"inputGreenL",
-    720:"textBlue",
-    721:"textBlueL",
-    730:"textRed",
-    731:"textRedL",
-    740:"textGreen",
-    741:"textGreenL",
-    820:"tableBlue",
-    821:"tableBlueL",
-    830:"tableRed",
-    831:"tableRedL",
-    840:"tableGreen",
-    841:"tableGreenL",
+    720:"inputSurface",
+    721:"inputSurfaceL",
+    730:"inputSurface",
+    731:"inputSurfaceL",
+    740:"inputSurface",
+    741:"inputSurfaceL",
+    820:"table",
+    821:"tableL",
+    830:"table",
+    831:"tableL",
+    840:"table",
+    841:"tableL",
 }
 
 function GetThemeList(){
-    const elementsNum=8
+    const elementsNum=9
     let l=[],col,light
     col=parseInt(cookies.get("themeColor"))
     light=parseInt(cookies.get("themeLight"))
-    if(isNaN(col)||isNaN(light)){
+    if(isNaN(col)&&isNaN(light)){
         for(let i=0; i<elementsNum+1; i++){
-            l.push(colorStorage[i*100+2*10+1])
+            l.push(colorStorage[i*100+4*10+1])
+        }
+    }
+    else if(isNaN(col)&&light){
+        for(let i=0; i<elementsNum+1; i++){
+            l.push(colorStorage[i*100+4*10+light])
+        }
+    }
+    else if(isNaN(light)&&col){
+        for(let i=0; i<elementsNum+1; i++){
+            l.push(colorStorage[i*100+col*10+1])
         }
     }
     else{

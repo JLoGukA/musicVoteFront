@@ -9,7 +9,7 @@ import '../css/App.css';
 import box from "../Elements"
 
 const cookies = new Cookies();
-const ThemeContext = createContext(box.updateThemeList())
+var theme
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -42,7 +42,6 @@ function AllDevices(props){
     const [playNowField,setPlayNowField]=useState({})
     const [info,setInfo]=useState(0)
     const fileInputRef=useRef()
-    const theme = useContext(ThemeContext)
     const arr={0:[21,15,0,1,3],1:[36,15,0,1,3]}
     const updateDevices=async(id)=>{
         const getDevicesInfo=async()=>{
@@ -55,8 +54,6 @@ function AllDevices(props){
         
         setShowFiles({})
         await getDevicesInfo()
-        
-        
         await timeout(10)
         let arr=[]
         if(id!==undefined)arr[id]=true
@@ -84,10 +81,12 @@ function AllDevices(props){
             formData.append('saveDir',saveDir)
             formData.append('ip',devices[info][1])
           
-            await axios.post(box.serverIP+"/file/upload",formData).then(async(res)=>{
+            await axios.post(box.serverIP+"/device/fileUpload",formData).then(async(res)=>{
                 if(res.data==="OK"){
                     await updateDevices()
+                    alert("Успешно отправлено")
                 }
+                else if(res.status > 400) alert("Ошибка отправки")
             })
         }
     }
@@ -121,7 +120,7 @@ function AllDevices(props){
             while(dir[i]!=='/')i--;
             let str=dir.slice(++i,dir.length)
             await axios({
-                url:box.serverIP+"/file/download",
+                url:box.serverIP+"/device/fileDownload",
                 method:'GET',
                 responseType:'blob',
                 headers:{
@@ -139,7 +138,7 @@ function AllDevices(props){
         else if(act===1){//delete
             setInfo(num)
             await axios({
-                url:box.serverIP+"/file/delete",
+                url:box.serverIP+"/device/fileDelete",
                 method:'POST',
                 headers:{
                 'ip': devices[info][1],
@@ -186,14 +185,21 @@ function AllDevices(props){
     for(let i=0; i<deviceConfig.length;i++){
         configArray.push([])
         for(let j=0;j<deviceConfig[i].length;j++){
-            
             configArray[i].push(
-                <input id = {""+i+j} 
-                type="text" 
-                className={"inputConfig "+theme[6]} 
-                placeholder={configDictionary[j]+": "+ deviceConfig[i][j]} 
-                onKeyDown={(e)=>{changeDeviceConfig(e.key,j,document.getElementById(""+i+j).value,devices[i][1])}}
-                />
+                <tr>
+                    <td>
+                        {configDictionary[j]+": "}
+                    </td>
+                    
+                    <td>
+                    <input id = {""+i+j} 
+                    type="text" 
+                    className={"inputConfig "+theme[6]} 
+                    placeholder={deviceConfig[i][j]} 
+                    onKeyDown={(e)=>{changeDeviceConfig(e.key,j,document.getElementById(""+i+j).value,devices[i][1])}}
+                    />
+                    </td>
+                </tr>
             )
         }
         
@@ -207,16 +213,16 @@ function AllDevices(props){
                 <div className={'deviceFileTable'}>
                     <div style={{'display':'flex'}}>
                         <p className={theme[7]}>{j+1}</p>
-                        <box.Button theme={theme[2]} style={String("itext")} text={deviceFile[i][j]} onclick={() => {fileManage(deviceFile[i][j],i,2)}}/>
+                        <box.Button style={String("itext")} text={deviceFile[i][j]} onclick={() => {fileManage(deviceFile[i][j],i,2)}}/>
                     </div>
                     
                     <div style={{'display':'flex'}}>
                         
                         {deviceFile[i][j][deviceFile[i][j].length-1]==='3' || deviceFile[i][j][deviceFile[i][j].length-1]==='v' || deviceFile[i][j][deviceFile[i][j].length-1]==='a' ? 
-                            <box.Button theme={theme[2]} style={String("iplay")} onclick={async() => {await playNow(i,devices[i][0],devices[i][1],deviceFile[i][j])}}/>:<></>
+                            <box.Button style={String("iplay")} onclick={async() => {await playNow(i,devices[i][0],devices[i][1],deviceFile[i][j])}}/>:<></>
                         }
-                        <box.Button theme={theme[2]} style={String("idownload")} onclick={() => {fileManage(deviceFile[i][j],i,0)}}/>
-                        <box.Button theme={theme[2]} style={String("idelete")} onclick={() => {fileManage(deviceFile[i][j],i,1)}}/>
+                        <box.Button style={String("idownload")} onclick={() => {fileManage(deviceFile[i][j],i,0)}}/>
+                        <box.Button style={String("idelete")} onclick={() => {fileManage(deviceFile[i][j],i,1)}}/>
                     </div>
                     
                 </div>
@@ -229,16 +235,16 @@ function AllDevices(props){
     for(let i=0; i<devices.length;i++){
         if(deviceID!==devices[i][0]){
             array2.push(
-                <div className={'deviceBack'}>
+                <div className={'deviceBack ' + theme[7]}>
                     <div className='device'>
-                        <box.Button theme={theme[2]} style={String("idevice")} text={"Устройство: "+devices[i][0]} onclick={()=>{updateDevices(i)}}/>
+                        <box.Button style={String("idevice")} text={"Устройство: "+devices[i][0]} onclick={()=>{updateDevices(i)}}/>
                         <div className='deviceInfo'>
                             <p className={theme[7]}>{"Адрес: "+devices[i][1]}</p>
                             
                             {(devices[i][3]!==""&&devices[i][3]!=undefined) ? 
                             <div style={{'display':'flex'}}>
                                 <p className={theme[7]}>{"Играет: "+devices[i][3]}</p>
-                                <box.Button theme={theme[2]} style={"ipause"} onclick={async()=>{await playNow(i,devices[i][0],devices[i][1],"STOP")}} />
+                                <box.Button style={"ipause"} onclick={async()=>{await playNow(i,devices[i][0],devices[i][1],"STOP")}} />
                             </div>:<></>}
                             
                         </div>
@@ -252,20 +258,20 @@ function AllDevices(props){
 
                         <div className='deviceButtons'>
                             
-                            <box.Button theme={theme[2]} style={String("itext")} text="Файлы" onclick={()=>{showFiles[i]=!showFiles[i];setInfo(Math.random())}}/>
-                            <box.Button theme={theme[2]} style={String("itext")} text="Загрузить файл" onclick={()=>{showTextField[i]=!showTextField[i];setInfo(Math.random())}} />
-                            <box.Button theme={theme[2]} style={String("itext")} text="Настройки" onclick={()=>{showConfigField[i]=!showConfigField[i];setInfo(Math.random())}} />
-                            <box.Button theme={theme[2]} style={String("ipower")} onclick={()=>{restart(devices[i][1])}}/> 
+                            <box.Button style={String("itext")} text="Файлы" onclick={()=>{showFiles[i]=!showFiles[i];setInfo(Math.random())}}/>
+                            <box.Button style={String("itext")} text="Загрузить файл" onclick={()=>{showTextField[i]=!showTextField[i];setInfo(Math.random())}} />
+                            <box.Button style={String("itext")} text="Настройки" onclick={()=>{showConfigField[i]=!showConfigField[i];setInfo(Math.random())}} />
+                            <box.Button style={String("ipower")} onclick={()=>{restart(devices[i][1])}}/> 
                         </div>
                         
                         {(showFiles[i]===true) ? array[i]:<div/>}
-                        <input className={"inputField " + theme[6]} 
+                        <input className={"textInput "+theme[6]} 
                             id="FileSaveDir" 
                             type={showTextField[i] ? "text":"hidden"} 
                             placeholder={"введите директорию или нажмите на файл"}
                             onKeyDown={(e)=>{ handleKeyDown(e.key) }}
                         />
-                        {(showConfigField[i]===true) ? configArray[i]:<div/>}
+                        {(showConfigField[i]===true) ? <table>{configArray[i]}</table>:<div/>}
                       
                     </div>
                 </div>
@@ -289,38 +295,32 @@ function Devices(){
     const navigate = useNavigate()
     if(cookies.get("CookiesAllowed")===undefined||cookies.get("admin")===undefined){navigate("/")}
 
-    const [update,doUpdate]=useState(0)
-    const [theme,setTheme]=useState({})
-    const [num,setNum]=useState(0)
-    const [num2,setNum2]=useState(0)
-
-    const setT=(T)=>{
-        setNum(T)
-    }
-    
+    const [update,setUpdate]=useState(0)
+    theme = useContext(box.ThemeContext)
 
     document.body.style="transition:all 0.2s; background:"+theme[0]+";"
 
     useEffect(() => {
-        doUpdate(Math.random())
+        updateUI()
     },[])
 
-    useEffect(()=>{
-        setTheme(box.updateThemeList())
-    },[update])
+    const updateUI=()=>{
+        box.ThemeContext = createContext(box.updateThemeList())
+        setUpdate(Math.random())
+    }
 
     let elem,navbar
   
-    navbar = <ThemeContext.Provider value={theme}><box.NavBarAdmin theme={theme}/></ThemeContext.Provider>
-    elem=<ThemeContext.Provider value={theme}><AllDevices update={doUpdate}/></ThemeContext.Provider>
+    navbar = <box.ThemeContext.Provider value={theme}><box.NavBarAdmin/></box.ThemeContext.Provider>
+    elem=<box.ThemeContext.Provider value={theme}><AllDevices update={updateUI}/></box.ThemeContext.Provider>
   
     return (
         <div className="mainLevel">
             <div className='topLevel'>
             {<box.Button  style={String("ispace")}/>}
-            {<box.Menu emplace={1} update={doUpdate}/>}
-            {<box.Button theme={theme[2]} style={String("ilightDark")} onclick={()=>{box.lightMode();doUpdate(Math.random())}}/>}
-            {<box.Button theme={theme[2]} style={String("iterminal")} onclick={()=>{navigate('/')}} />}
+            {<box.Menu emplace={1} update={updateUI}/>}
+            {<box.Button style={String("ilightDark")} onclick={()=>{box.lightMode();updateUI()}}/>}
+            {<box.Button style={String("iterminal")} onclick={()=>{navigate('/')}} />}
             </div>
             {navbar}
             <div className='spaceElement'></div>

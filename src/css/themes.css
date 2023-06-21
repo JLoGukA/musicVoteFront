@@ -3,69 +3,164 @@
 .Back{
     margin:0px 10px;
     border-radius:20px;
-    transition: all 0.2s;
+    transition: all 0.1s;
     align-self: center;
     font-weight: 500;
 }
 
-/* DARK */
+/* TABLE */
 
+.table tr:nth-child(even),.table tr:nth-child(even) textarea,.table tr:nth-child(even) input,.table tr:nth-child(even) select{
+    background: #303030;
+    min-width: 100px;
+    color:#ebebeb;
+    
+}
+.table tr:nth-child(odd),.table tr:nth-child(odd) textarea,.table tr:nth-child(odd) input,.table tr:nth-child(odd) select{
+    background: #494949;
+    min-width: 5em;
+    color:#ebebeb;
+}
+
+.tableL tr:nth-child(even),.tableL tr:nth-child(even) textarea,.tableL tr:nth-child(even) input,.tableL tr:nth-child(even) select{
+    background: #e2e2e2;
+    min-width: 5em;
+}
+.tableL tr:nth-child(odd),.tableL tr:nth-child(odd) textarea,.tableL tr:nth-child(odd) input,.tableL tr:nth-child(odd) select{
+    background: #fff;
+    min-width: 5em;
+}
+
+/* BACKGROUND SURFACE WITH INPUTS */
+
+.inputSurface{
+    color:#ebebeb;
+    font-size:18px;
+    align-self:center;
+    background: #333333;
+}
+
+.inputSurfaceL{
+    font-size:18px;
+    align-self:center;
+    background: #ebebeb;
+}
+
+/* DARK */
 /* RED */
 
-.barRed,.pollRed{
-    transition: all 0.2s;
-    background:#ffd193;
-}
-
-.btnRed{
-    color:#90e0d1;
-    filter: brightness(0) saturate(100%) invert(14%) sepia(99%) saturate(5242%) hue-rotate(346deg) brightness(86%) contrast(100%);
-}
-
-.btnRed:hover{
-    filter: brightness(0) saturate(100%) invert(4%) sepia(43%) saturate(4248%) hue-rotate(340deg) brightness(100%) contrast(97%);
-}
-.btnRedBack:hover.progressRed{
-    background:#7d1d1d;
-}
-
-/* BLUE */
-
-.textBlue{
-    color:#92d7ef;
+.textRed{
+    color:#ebebeb;
     font-size:18px;
     align-self:center;
 }
+.barRed,.pollRed{
+    background:#333333;
+    color:#ebebeb;
+}
+
+.btnRed, .pollRed h1{
+    filter: brightness(0) saturate(100%) invert(94%) sepia(0%) saturate(429%) hue-rotate(182deg) brightness(93%) contrast(89%);
+}
+
+.btnRed:hover{
+    filter: brightness(0) saturate(100%) invert(98%) sepia(3%) saturate(0%) hue-rotate(13deg) brightness(114%) contrast(84%);
+}
+
+.btnRedBack:hover,.progressRed{
+    background:#b73838;
+    color:#ebebeb;
+}
+.voteButRed{
+    transition: all 0.2s;
+    background: #b73838;
+    color:#ebebeb;
+    
+}
+.voteButRed:hover,.inputRed,.inputRed::placeholder{
+    background: #ebebeb;
+    color:#b73838;
+}
+.voteButRed:hover{outline:auto;}
+
+/* DARK */
+/* BLUE */
+
 .barBlue,.pollBlue{
-    background:#0b212f;
-    color:#92d7ef;
+    background:#333333;
+    color:#ebebeb;
 }
 
 .btnBlue, .pollBlue h1{
-    filter: brightness(0) saturate(100%) invert(75%) sepia(42%) saturate(460%) hue-rotate(120deg) brightness(98%) contrast(87%);
+    filter: brightness(0) saturate(100%) invert(94%) sepia(0%) saturate(429%) hue-rotate(182deg) brightness(93%) contrast(89%);
+    
 }
 
 .btnBlue:hover{
-    filter: brightness(0) saturate(100%) invert(8%) sepia(74%) saturate(655%) hue-rotate(163deg) brightness(93%) contrast(94%);
+    filter: brightness(0) saturate(100%) invert(98%) sepia(3%) saturate(0%) hue-rotate(13deg) brightness(114%) contrast(84%);
+    
 }
 
 .btnBlueBack:hover,.progressBlue{
-    background:#92d7ef;
+    background:#3166ae;
 }
 .voteButBlue{
     transition: all 0.2s;
-    background: #92d7ef;
-    color:#0b212f;
+    background: #3166ae;
+    color:#ebebeb;
     
 }
-.voteButBlue:hover,.inputBlue,.inputBlue::placeholder{
-    background: #0b212f;
-    color:#92d7ef;
+.voteButBlue:hover{
+    
+    background: #ebebeb;
+    color:#3166ae;
+}
+.inputBlue,.inputBlue::placeholder{
+    background:#505050;
+    color:white;
+}
+.inputBlue:focus{
+    outline:solid 3px #3166ae;
 }
 .voteButBlue:hover{outline:auto;}
 
-/* LIGHT */
+/* DARK */
+/* GREEN */
+.barGreen,.pollGreen{
+    background:#333333;
+    color:#ebebeb;
+}
 
+.btnGreen, .pollGreen h1{
+    filter: brightness(0) saturate(100%) invert(94%) sepia(0%) saturate(429%) hue-rotate(182deg) brightness(93%) contrast(89%);
+}
+
+.btnGreen:hover{
+    filter: brightness(0) saturate(100%) invert(98%) sepia(3%) saturate(0%) hue-rotate(13deg) brightness(114%) contrast(84%);
+}
+
+.btnGreenBack:hover,.progressGreen{
+    background:#057632;
+    
+}
+.voteButGreen{
+    transition: all 0.2s;
+    background: #057632;
+    color:#ebebeb;
+    
+}
+.voteButGreen:hover{
+    background: #ebebeb;
+    color:#057632;
+}
+.inputGreen,.inputGreen::placeholder{
+    background:#505050;
+    color:white;
+}
+.voteButGreen:hover{outline:auto;}
+
+
+/* LIGHT */
 /* RED */
 
 .shadowRedL{
@@ -109,6 +204,7 @@
     color:#cb4343;
 }
 
+/* LIGHT */
 /* BLUE */
 
 .shadowBlueL{
@@ -150,6 +246,7 @@
     color:#4472ca;
 }
 
+/* LIGHT */
 /* GREEN */
 
 .shadowGreenL{
@@ -157,14 +254,14 @@
 }
 
 .textGreenL{
-    color:#52cb43;
+    color:#2e6c24;
     font-size:18px;
     align-self:center;
 }
 
 .barGreenL,.pollGreenL{
     background:#FFFFFF;
-    color:#52cb43;
+    color:#2e6c24;
 }
 
 .btnGreenL, .pollGreenL h1{
@@ -191,6 +288,7 @@
     color:#449f34;
 }
 
+/* LIGHT */
 /* WHITE */
 
 .mainWhite,.barWhite,.pollwhite{

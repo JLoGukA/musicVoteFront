@@ -1,7 +1,9 @@
+@import "Animations.css";
+
 .btnAll{
   display: flex;
   flex-direction:column;
-  border-radius: 20px;
+  border-radius: 10px;
   text-align: center;
   align-items:center;
   padding:0.5em;
@@ -11,14 +13,14 @@
   display: flex;
 }
 
-.ibmstu, .ischedule, .inote,.igear,.igear img,.ilogout,.idevice,.ifile{
+.ibmstu, .ischedule, .inote,.igear,.igear img,.ilogout,.idevice,.ifile,.itv,.itv img,.iaudiochat{
   justify-content: center;
-  width:6em;
-  height:6em;
+  width:100px;
+  height:100px;
 }
 
 .ibmstu img, .ischedule img, .inote img,
-.idevice img,.ilogout img,.ifile img{
+.idevice img,.ilogout img,.ifile img,.iaudiochat img{
   
   width:5em;
   height:4em;
@@ -27,14 +29,22 @@
 .ired,.igreen,.iblue,.ired img,.igreen img,.iblue img,
 .ilightDark img,.ilightDark,
 .iupload,.iupload img,.iadd,.iadd img, .iupdate, .iupdate img,
-.iplay,.iplay img,.ipause,.ipause img,.ipower,.ipower img{
-  height:2.5em;
-  width:2.5em;
+.iplay,.iplay img,.ipause,.ipause img,.ipower,.ipower img,
+.idiscard,.idiscard img,.iclock,.iclock img{
+  height:35px;
+  width:35px;
+}
+
+.iaddsmall,.iaddsmall img,.icopysmall,.icopysmall img,
+.idevicesmall,.idevicesmall img,.ialign,.ialign img,
+.ialignnot,.ialignnot img,.idevicenot,.idevicenot img
+{
+  height:25px;
 }
 
 .idownload,.idownload img,.idelete,.idelete img{
-  height:2em;
-  width:2em;
+  height:35px;
+  width:35px;
 }
 
 
@@ -42,17 +52,21 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
-.ibmstuM, .ischeduleM, .inoteM,.igearM,.igearM img,.ischeduleM img{
-  width:3em;
-  height:3em;
+.ibmstuM, .ischeduleM, .inoteM,.igearM,
+.itvM{
+  width:3.5em;
+  height:3.5em;
+  padding:0.4em;
 }
-
-.igear,.igearM{
-  animation: App-logo-spin-rev infinite 10s linear;
+.ibmstuM img, .inoteM img, .ischeduleM img,.igearM img,.itvM img{
+  width:45px;
 }
 
 .itext{
+  display: flex;
+  flex-direction: column;
+  min-width: 90px;
   
-  text-align: center;
-  font-size:18px;
+  height:50px;
+  font-size: 18px;
 }

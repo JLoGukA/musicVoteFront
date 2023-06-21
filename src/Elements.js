@@ -1,16 +1,20 @@
 import React from 'react'
-import { useState}from 'react';
+import { useState,useEffect,useContext, createContext }from 'react';
 import themes from './themes';
 import Cookies from 'universal-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 import './css/NavBar.css'
 import './css/NavButton.css'
 import './css/Poll.css'
 import './css/themes.css'
-import './css/LogInBox.css'
 import './css/AdminThings.css'
 
+import ialign from './asset/align.svg'
+import iclock from './asset/clock.svg'
+import ialignnot from './asset/alignnot.svg'
+import idiscard from './asset/discard.svg'
+import idevicenot from './asset/devicenot.svg'
 import ispace from './asset/space.png'
 import inote from './asset/note.svg'
 import ibmstu from './asset/logo-bmstu.svg'
@@ -23,85 +27,100 @@ import ired from './asset/colors/red.svg'
 import iterminal from './asset/terminalThick.svg'
 import ilogout from './asset/logout.svg'
 import idevice from './asset/device.svg'
+import idevicesmall from './asset/devicesmall.svg'
 import ifile from './asset/file.svg'
 import ilightDark from './asset/lightDark.svg'
 import idelete from './asset/delete.svg'
 import iupload from './asset/upload.svg'
 import iadd from './asset/add.svg'
+import icopy from './asset/copy.svg'
 import iupdate from './asset/update.svg'
 import idownload from './asset/download.svg'
 import iplay from './asset/play.svg'
 import ipause from './asset/pause.svg'
 import ipower from './asset/power.svg'
+import itv from './asset/tv.svg'
+import itvM from './asset/tvM.svg'
+import iaudiochat from './asset/audiochat.svg'
 
 const tinyimage="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-const serverIP="http://localhost:3005"
+const serverIP="http://localhost:40005"
 const cookies = new Cookies();
 
 var themeList=themes.GetThemeList()
+var ThemeContext = createContext(themeList)
 
-function updateThemeList(){
+function UpdateThemeList(){
     themeList=themes.GetThemeList();
+    ThemeContext = createContext(themeList)
     return themeList
 }
 
 const dict={
-    inote:{image:inote},
-    ibmstu:{image:ibmstu},
-    ischedule:{image:ischedule},
-    igear:{image:igear},
-    ispace:{image:ispace},
-    itext:{image:""},
-    ipalette:{image:ipalette},
-    ired:{image:ired},
-    igreen:{image:igreen},
-    iblue:{image:iblue},
-    iterminal:{image:iterminal},
-    ilogout:{image:ilogout},
-    idevice:{image:idevice},
-    ilightDark:{image:ilightDark},
-    ifile:{image:ifile},
-    idelete:{image:idelete},
-    iupload:{image:iupload},
     iadd:{image:iadd},
-    iupdate:{image:iupdate},
-    idownload:{image:idownload},
-    iplay:{image:iplay},
-    ipause:{image:ipause},
-    ipower:{image:ipower},
-
-    inoteM:{image:inote},
+    iaddsmall:{image:iadd},
+    ialign:{image:ialign},
+    ialignnot:{image:ialignnot},
+    iaudiochat:{image:iaudiochat},
+    iblue:{image:iblue},
+    ibmstu:{image:ibmstu},
     ibmstuM:{image:ibmstu},
-    ischeduleM:{image:ischedule},
+    iclock:{image:iclock},
+    idelete:{image:idelete},
+    idevice:{image:idevice},
+    idevicenot:{image:idevicenot},
+    idevicesmall:{image:idevicesmall},
+    idiscard:{image:idiscard},
+    idownload:{image:idownload},
+    ifile:{image:ifile},
+    igear:{image:igear},
     igearM:{image:igear},
+    igreen:{image:igreen},
+    ilightDark:{image:ilightDark},
+    ilogout:{image:ilogout},
+    inote:{image:inote},
+    inoteM:{image:inote},
+    ipalette:{image:ipalette},
+    ipause:{image:ipause},
+    iplay:{image:iplay},
+    ipower:{image:ipower},
+    ired:{image:ired},
+    ischedule:{image:ischedule},
+    ischeduleM:{image:ischedule},
+    ispace:{image:ispace},
+    iterminal:{image:iterminal},
+    itext:{image:""},
+    itv:{image:itv},
+    itvM:{image:itvM},
+    iupdate:{image:iupdate},
+    iupload:{image:iupload},    
 }
 
 function Button(props){
-    
+    const theme=useContext(ThemeContext)
     const onclick = async () =>{
-        if(props.style==="igear"){
-            cookies.remove("VoteAccepted")
-            cookies.remove("CookiesAllowed")
-            document.location.href="/"
-        }
+        
         if(props.onclick!==undefined)props.onclick();
         
         if(props.link!==undefined)document.location.href=props.link;
     }
     if(props.mobile){
         return(
-            <div className={"Back "+ props.theme+"Back"}>
-                <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+props.theme} onClick={()=>{onclick()}}>
+            <div className={"Back "+ theme[2]+"Back"} >
+                <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+theme[2]} onClick={()=>{onclick()}}>
                     <img src={(dict[props.style]!==undefined) ? dict[props.style].image:tinyimage} alt={""}></img>
+                    
+                    <text style={{'font-size':'10px'}}>{props.text}</text>
                 </div>
             </div>
         )
     }
     else{
         return(
-            <div className={"Back "+ props.theme+"Back"}>
-                <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+props.theme} onClick={()=>{onclick()}}>
+            <div className={"Back "+ theme[2]+"Back"} onMouseDown={(e)=>{e.preventDefault();if(e.button===1)window.open(props.link,"_blank")}}>
+                <div className={props.menu===true ? "btnAll "+props.style:"btnAll "+props.style+" "+theme[2]} onClick={()=>{onclick()}}>
                     <img src={(dict[props.style]!==undefined) ? dict[props.style].image:tinyimage} alt={""}></img>
+                    <div style={{'height':'10px'}}></div>
                     <div className='itext'>{(props.text) ? props.text:" "}</div>
                 </div>
             </div>
@@ -111,113 +130,81 @@ function Button(props){
 
 function Menu(props){
     const [show,setShow]=useState(0)
-    const navigate=useNavigate()
+    const [menuList,setMenuList]=useState([])
 
+    useEffect(() => {
+        let list=[
+            <div onClick={()=>{onclick(0)}}><Button style={String("ired")} menu={true}/></div>,
+            <div onClick={()=>{onclick(1)}}><Button style={String("igreen")} menu={true}/></div>,
+            <div onClick={()=>{onclick(2)}}><Button style={String("iblue")} menu={true}/></div>
+        ]
+        setMenuList(list)
+    },[])
 
     const onclick=(num)=>{
         if(num===0)cookies.set("themeColor",3)
         else if(num===1)cookies.set("themeColor",4)
         else if(num===2)cookies.set("themeColor",2)
-        props.update(Math.random())
-        
-    }
-    var menuList
-    if(show&&props.emplace===1){
-        menuList=[
-            <div onClick={()=>{onclick(0)}}><Button style={String("ired")} menu={true}/></div>,
-            <div onClick={()=>{onclick(1)}}><Button style={String("igreen")} menu={true}/></div>,
-            <div onClick={()=>{onclick(2)}}><Button style={String("iblue")} menu={true}/></div>
-            ]
-    }
-    else if(show&&props.elems!==undefined){
-        menuList=[]
-        for(var i=0; i<props.num; i++){
-            menuList.push(props.elems[i])
-        }
-    }
+        UpdateThemeList()
+        props.update()
+    } 
+    
     return(
         <div className='menu' onClick={()=>{setShow(!show)}}>
-            <Button style={String("ipalette")} theme={themeList[2]} menu={show}/>
-            {menuList}
+            <Button style={String("ipalette")} menu={show}/>
+            {show ? menuList:<></>}
         </div>
     )
 }
 
-function InputField(props){
-    const [inputText, setInputText] = useState("");
-    
-    const HandleChange = (event) =>{
-        setInputText(event.target.value);
-    }
-    if(props.display===true){
-        return(
-            <input
-            className={"inputField " + props.theme} 
-            id={props.idx!==undefined ? props.idx:""} 
-            type={props.display ? "text":"hidden"} 
-            value={inputText} 
-            onChange={HandleChange} 
-            placeholder={props.text!==undefined ? props.text:""}
-            onKeyDown={(e)=>{ props.onKey(e.key)}}
-            />
-        )
-    }
-    else return(<div></div>)
-}
 
-function TextArea(props){
-    if(props.display===true){
-        return(
-            <textarea 
-            className={'inputField ' + props.theme}
-            id={props.idx!==undefined ? props.idx:""} 
-            rows={props.rows!==undefined ? parseInt(props.rows):3}
-            cols={props.cols!==undefined ? parseInt(props.cols):3}
-            placeholder={props.text!==undefined ? props.text:""}
-            />
-        )
-    }
-}
 
-const lightMode=()=>{
-    if(cookies.get("themeLight")!==undefined&&cookies.get("themeColor")!==undefined){
-        if(cookies.get("themeLight")==="0"){
+
+const LightMode=()=>{
+    if(cookies.get("themeLight")!==undefined){
+        if(cookies.get("themeLight")=="0"){
             cookies.set("themeLight",1)
         }
         else {
             cookies.set("themeLight",0)
         }
+        UpdateThemeList()
+        
     }
     else {
         const prefersDark = window.matchMedia(
             "(prefers-color-scheme: dark)"
         ).matches;
         if(prefersDark){
-            cookies.set("themeLight",1);
-            cookies.set("themeColor",2);
+            cookies.set("themeLight",0);
+            cookies.set("themeColor",4);
         }
         else{
-            cookies.set("themeLight",0);
-            cookies.set("themeColor",2);
+            cookies.set("themeLight",1);
+            cookies.set("themeColor",4);
         }
+        UpdateThemeList()
     }
 }
 
 function NavBarAdmin(props){
+    const theme=useContext(ThemeContext)
     const navigate = useNavigate()
     return(
-          <div className={"navbar " + props.theme[1]}>
-              <div className="navbarchild">
-                  {<box.Button theme={props.theme[2]} text="Файлы" style={String("ifile")} onclick={()=>{navigate('/files')}}/>}
-                  {<box.Button theme={props.theme[2]} text="Расписание" style={String("ischedule")} onclick={()=>{navigate('/schedule')}}/>} 
-                  {<box.Button theme={props.theme[2]} text="Устройства" style={String("idevice")} onclick={()=>{navigate('/devices')}}/>}   
-              </div>
-              <div className="navbarchild">
-                  {<box.Button theme={props.theme[2]} style={String("ilogout")} text="Выход" onclick={()=>{cookies.remove("admin");navigate("/");}}/>}
-              </div>
-          </div>   
+        <div className={"navbar " + theme[1]}>
+            <div className="navbarchild">
+                {<Button text="Голосование" style={String("inote")} onclick={()=>{navigate('/voteSettings')}}/>} 
+                {<Button text="Генерация аудио" style={String("iaudiochat")} onclick={()=>{navigate('/files')}}/>}
+                {<Button text="Расписание" style={String("ischedule")} onclick={()=>{navigate('/schedule')}}/>} 
+                {<Button text="Устройства" style={String("idevice")} onclick={()=>{navigate('/devices')}}/>}   
+                   
+            </div>
+            <div className="navbarchild">
+                {<Button style={String("ilogout")} text="Выход" onclick={()=>{cookies.remove("admin");navigate("/");}}/>}
+            </div>
+        </div>   
     ) 
 }
 
-var box={Button,Menu,InputField, TextArea,updateThemeList,lightMode, NavBarAdmin,serverIP}
+var box={Button,Menu,updateThemeList:UpdateThemeList,lightMode:LightMode, NavBarAdmin,serverIP,ThemeContext}
 export default box;

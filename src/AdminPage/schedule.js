@@ -10,14 +10,12 @@ import '../css/ScheduleTable.css'
 import box from "../Elements"
 
 const cookies = new Cookies();
-const ThemeContext = createContext(box.updateThemeList())
+var theme
 
 function ScheduleTable(){
     const navigate = useNavigate()
-    const theme = useContext(ThemeContext)
-    const [schedule,setSchedule]=useState({})
+    const [schedule,setSchedule]=useState([])
     const [tableData,setTableData]=useState({})
-    const [scheduleRaw, setScheduleRaw]=useState({})
 
     useEffect(()=>{
         updateTable()
@@ -74,66 +72,77 @@ function ScheduleTable(){
             // res.data[0][4]="Место"; res.data[0][5] = "Комментарий"
             
             let elements=[]
-            for(let i=0; i<res.data.length&&i<1;i++){//Формирование строки с заголовками в таблице
-                elements.push([])
-                for(let j=0; j<res.data[i].length; j++){
-                    elements[i].push(<th>{res.data[i][j]}</th>)
-                }
+            //Формирование строки с заголовками в таблице
+            elements.push([])
+            for(let j=0; j<res.data[0].length; j++){
+                elements[0].push(<th>{res.data[0][j]}</th>)
             }
+            
             for(let i=1; i<res.data.length;i++){//Формирование каждой строки таблицы кроме заголовков
                 elements.push([])
-                for(let j=0; j<res.data[i].length; j++){
-                    let el=res.data[i][j]
-                    
-                    let cid="cell"+i+j
-                    if(j===2){// 2 - j место даты в массиве res.data[i][j]
-                        elements[i].push(
-                            <td>
-                                <input id={cid} type={"datetime-local"}
-                                placeholder={el} 
-                                defaultValue={el.slice(0,16)}
-                                onKeyDown={(e)=>{if(e.key==="Enter")handleKey(e,res.data[i][0],res.data[0][j],document.getElementById(cid).value)}}/>
-                            </td>
-                        )
-                    }
-                    else if(j===3){// 3 - j Место файлов
-                        elements[i].push(
-                            <td style={{'display':'flex','flex-direction':'column'}}>
-                                {/* <text>Выбран: {res.data[i][j]}</text> */}
-                                <select 
-                                style={{'margin':'1em'}}
-                                id={"wavMenu"+i+j}
-                                name="file"
-                                onChange={()=>{
-                                    let e={};
-                                    e.key="sel";
-                                    handleKey(e,res.data[i][0],res.data[0][j],document.getElementById("wavMenu"+i+j).value)
-                                }}>
-                                    <option value={-1}>Выбран: {res.data[i][j]}</option>
-                                    <option value={-1}>--</option>
-                                    {wav[res.data[i][1]]}
-                                </select>
-                            </td>
-                        )
-                    }
-                    else{
-                        elements[i].push(
-                            <td>
-                                <textarea id={cid} 
-                                placeholder={el} 
-                                defaultValue={el}
-                                onKeyDown={(e)=>{if(e.key==="Enter")handleKey(e,res.data[i][0],res.data[0][j],document.getElementById(cid).value)}}/>
-                            </td>
-                        )
-                    }  
-                }
+                elements[i]=[
+                    <td className='schtable'>
+                      <input
+                      defaultValue={res.data[i][0]} 
+                      readOnly
+                      />
+                    </td>,
+  
+                    <td className='schtable'>
+                    <input 
+                      type="number" 
+                      id={"cell"+i+"1"} 
+                      defaultValue={res.data[i][1]}
+                      onChange={(e)=>{e.key="Enter";handleKey(e,res.data[i][0],res.data[0][1],document.getElementById("cell"+i+"1").value)}}
+                    />
+                    </td>,
+  
+                    <td className='schtable'>
+                      <input id={"cell"+i+"2"} type={"datetime-local"}
+                      defaultValue={res.data[i][2].slice(0,16)}
+                      onKeyDown={(e)=>{if(e.key==="Enter")handleKey(e,res.data[i][0],res.data[0][2],document.getElementById("cell"+i+"2").value)}}/>
+                    </td>,
+  
+                    <td style={{'display':'flex','flex-direction':'column'}} >
+                      <select 
+                      style={{'margin':'1em'}}
+                      id={"wavMenu"+i+"3"}
+                      name="file"
+                      onChange={()=>{
+                          let e={};
+                          e.key="sel";
+                          handleKey(e,res.data[i][0],res.data[0][3],document.getElementById("wavMenu"+i+"3").value)
+                      }}>
+                        <option value={-1}>Выбран: {res.data[i][3]}</option>
+                        <option value={-1}>--</option>
+                        {wav[res.data[i][1]]}
+                      </select>
+                    </td>,
+  
+                    <td className='schtable'>
+                      <textarea  id={"cell"+i+"4"} 
+                      placeholder={res.data[i][4]} 
+                      defaultValue={res.data[i][4]}
+                      onChange={(e)=>{e.key="Enter";handleKey(e,res.data[i][0],res.data[0][4],document.getElementById("cell"+i+"4").value)}}
+                      />
+                    </td>,
+  
+                    <td className='schtable'>
+                      <textarea  id={"cell"+i+"5"} 
+                      placeholder={res.data[i][5]} 
+                      defaultValue={res.data[i][5]}
+                      onChange={(e)=>{e.key="Enter";handleKey(e,res.data[i][0],res.data[0][5],document.getElementById("cell"+i+"5").value)}}
+                      />
+                    </td>
+                  
+                ]
             }
             
             elements[0]= //оборачивание в <tr> заголовков
-            <tr>
+            <tr className='schtable'>
                 {elements[0]}
                 <box.Button 
-                    theme={theme[2]} 
+                    
                     style="iadd" 
                     onclick={()=>{let e={};e.key="add" ;handleKey(e)}}
                 />
@@ -141,16 +150,16 @@ function ScheduleTable(){
 
             for(let i=1; i<res.data.length; i++){ //оборачивание в <tr> строк кроме заголовков
                 elements[i]=
-                <tr>
+                <tr className='schtable'>
                     {elements[i]}
                     <box.Button 
-                        theme={theme[2]} 
+                        
                         style="idelete" 
                         onclick={()=>{let e={};e.key="del";handleKey(e,res.data[i][0])}}
                     />
                 </tr>
             }
-            setSchedule(elements)
+            setSchedule(<table className={'schtable '+theme[8]}>{elements}</table>)
         })   
     }
 
@@ -181,7 +190,7 @@ function ScheduleTable(){
                 }
             }).catch((err)=>{
                 if(err.response.status){
-                    alert("Ошибка в измененных ячейках таблицы")
+                    alert("Ошибка при изменении расписания")
                 }
             })
         }
@@ -189,13 +198,7 @@ function ScheduleTable(){
     }
 
     return(
-        <table>
-            {
-                Object.entries(schedule).map(([key,value])=>(
-                    <>{value}</>
-                ))
-            }
-        </table>
+        schedule
     )
 
 }
@@ -204,33 +207,32 @@ function ScheduleTable(){
 function Schedule(){
     
   const navigate = useNavigate()
+  const [update,setUpdate]=useState(0)
+  theme = useContext(box.ThemeContext)
   if(cookies.get("CookiesAllowed")===undefined||cookies.get("admin")===undefined){navigate("/")}
-
-  const [update,doUpdate]=useState(0)
-  const [theme,setTheme]=useState({})
-
   document.body.style="transition:all 0.2s; background:"+theme[0]+";"
 
   useEffect(() => {
-    doUpdate(Math.random())
+    updateUI()
   },[])
 
-  useEffect(()=>{
-    setTheme(box.updateThemeList())
-  },[update])
+  const updateUI=()=>{
+    box.ThemeContext = createContext(box.updateThemeList())
+    setUpdate(Math.random())
+  }
 
   let elem,navbar
   
-  navbar = <ThemeContext.Provider value={theme}><box.NavBarAdmin theme={theme}/></ThemeContext.Provider>
-  elem=<ThemeContext.Provider value={theme}><ScheduleTable/></ThemeContext.Provider>
+  navbar = <box.ThemeContext.Provider value={theme}><box.NavBarAdmin/></box.ThemeContext.Provider>
+  elem=<box.ThemeContext.Provider value={theme}><ScheduleTable/></box.ThemeContext.Provider>
 
   return (
       <div className="mainLevel">
         <div className='topLevel'>
           {<box.Button  style={String("ispace")}/>}
-          {<box.Menu emplace={1} update={doUpdate}/>}
-          {<box.Button theme={theme[2]} style={String("ilightDark")} onclick={()=>{box.lightMode();doUpdate(Math.random())}}/>}
-          {<box.Button theme={theme[2]} style={String("iterminal")} onclick={()=>{navigate('/')}} />}
+          {<box.Menu emplace={1} update={updateUI}/>}
+          {<box.Button style={String("ilightDark")} onclick={()=>{box.lightMode();updateUI()}}/>}
+          {<box.Button style={String("iterminal")} onclick={()=>{navigate('/')}} />}
         </div>
         {navbar}
         <div className='spaceElement'></div>

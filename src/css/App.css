@@ -45,11 +45,6 @@ body {
   color: #61dafb;
 }
 
-/* .underMainLevel{
-  display:flex;
-  flex-direction: row;
-} */
-
 .mainLevel{
   display:flex;
   flex-direction:column;
